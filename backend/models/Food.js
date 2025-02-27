@@ -10,7 +10,6 @@ const FoodSchema = new mongoose.Schema(
     },
     size: {
       type: Number,
-      //required: [false, "Please serving size e.g 100 gram"],
       min: 1,
       max: 5000,
       default: 1,
@@ -19,9 +18,9 @@ const FoodSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Please enter calories intake"],
       min: 1,
-      max: 50,
+      max: 5000,
     },
-    availability: {
+    meal: {
       type: String,
       enum: ["breakfast", "lunch", "dinner", "snacks"],
       default: "snacks",

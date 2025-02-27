@@ -37,6 +37,9 @@ app.use("/api/auth", authRouter);
 const weightRoutes = require("./routes/weight");
 app.use("/api/weights", authenticatedUser, weightRoutes);
 
+const foodRoutes = require("./routes/food");
+app.use("/api/food", authenticatedUser, foodRoutes);
+
 app.get("/api", (req, res) => {
   res.send("Welcome to the ProgressFit backend");
 });

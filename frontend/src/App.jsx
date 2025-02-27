@@ -11,6 +11,8 @@ import Register from "./Register";
 import Dashboard from "./Dashboard";
 import Weight from "./Weight";
 import Food from "./Food";
+import AddFood from "./AddFood";
+import EditFood from "./EditFood";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -32,7 +34,18 @@ const App = () => {
           }
         />
         <Route path="/weight" element={<Weight />} />
-        <Route path="/food" element={<Food />} />
+        <Route
+          path="/food"
+          element={user ? <Food user={user} /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/add-food"
+          element={user ? <AddFood user={user} /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/edit-food/:id"
+          element={user ? <EditFood user={user} /> : <Navigate to="/" />}
+        />
       </Routes>
     </Router>
   );
