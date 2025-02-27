@@ -1,5 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Line } from "react-chartjs-2"; 
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const Weight = () => {
   const navigate = useNavigate();
@@ -145,6 +150,20 @@ const Weight = () => {
     }
   };
 
+  const chartData = {
+    labels: weights.map((weight) => new Date(weight.weightOnDate).toLocaleDateString()), // x-axis (dates)
+    datasets: [
+      {
+        label: "Weight Over Time (kg)",
+        data: weights.map((weight) => weight.weight), // y-axis (weights)
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        fill: false,
+        tension: 0.1,
+      },
+    ],
+  };
+
   return (
     <div className="weight">
       <h2>Weight Page</h2>
@@ -153,6 +172,9 @@ const Weight = () => {
       </button>
 
       {error && <p className="error">{error}</p>}
+
+      <h3>Weight Chart</h3>
+      <Line data={chartData} />
 
       <h3>Existing Weights</h3>
       <ul>
