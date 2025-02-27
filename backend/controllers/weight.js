@@ -36,6 +36,8 @@ const createWeight = async (req, res) => {
 
   req.body.createdBy = req.user.userId;
 
+  req.body.weightOnDate = new Date(weightOnDate).toISOString(); // Convert to UTC
+
   const newWeight = await Weight.create(req.body);
   res.status(StatusCodes.CREATED).json({ newWeight });
 };
@@ -50,6 +52,8 @@ const updateWeight = async (req, res) => {
   if (weight === undefined || weightOnDate === undefined) {
     throw new BadRequestError("Weight and Date cannot be empty");
   }
+
+  req.body.weightOnDate = new Date(weightOnDate).toISOString(); // Convert to UTC
 
   const updatedWeight = await Weight.findByIdAndUpdate(
     { _id: weightId, createdBy: userId },

@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 const Weight = () => {
   const navigate = useNavigate();
 
-  // State to store weights
   const [weights, setWeights] = useState([]);
   const [newWeight, setNewWeight] = useState({ weight: "", weightOnDate: "" });
   const [error, setError] = useState(null);
+  const [editWeightId, setEditWeightId] = useState(null); // Track which weight is being edited
+
+  const getTodayDate = () => new Date().toISOString().split("T")[0]; // Ensure correct format
 
   useEffect(() => {
     const fetchWeights = async () => {
@@ -31,10 +33,15 @@ const Weight = () => {
         setWeights(data.weights);
       } catch (error) {
         setError(error.message);
+        console.error("Error fetching weights:", error);
       }
     };
 
     fetchWeights();
+  }, []);
+
+  useEffect(() => {
+    setNewWeight({ weight: "", weightOnDate: getTodayDate() });
   }, []);
 
   const handleChange = (e) => {
@@ -66,9 +73,75 @@ const Weight = () => {
 
       const data = await response.json();
       setWeights([...weights, data.newWeight]);
-      setNewWeight({ weight: "", weightOnDate: "" });
+      setNewWeight({ weight: "", weightOnDate: getTodayDate() });
     } catch (error) {
       setError(error.message);
+      console.error("Error creating weight:", error);
+    }
+  };
+
+  const handleEditWeight = (weightId, weightData) => {
+    setEditWeightId(weightId); // Set the ID of the weight being edited
+    setNewWeight({
+      weight: weightData.weight,
+      weightOnDate: weightData.weightOnDate.split("T")[0],
+    });
+  };
+
+  const handleUpdateWeight = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/weights/${editWeightId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(newWeight),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update weight entry");
+      }
+
+      const data = await response.json();
+      const updatedWeights = weights.map((weight) =>
+        weight._id === data.updatedWeight._id ? data.updatedWeight : weight
+      );
+      setWeights(updatedWeights);
+      setNewWeight({ weight: "", weightOnDate: getTodayDate() });
+      setEditWeightId(null); // Reset the edit mode
+    } catch (error) {
+      setError(error.message);
+      console.error("Error updating weight:", error);
+    }
+  };
+
+  const handleDeleteWeight = async (weightId) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/weights/${weightId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete weight entry");
+      }
+
+      setWeights(weights.filter((weight) => weight._id !== weightId));
+    } catch (error) {
+      setError(error.message);
+      console.error("Error deleting weight:", error);
     }
   };
 
@@ -79,15 +152,43 @@ const Weight = () => {
         Back
       </button>
 
-      {/* Display weights */}
       {error && <p className="error">{error}</p>}
 
       <h3>Existing Weights</h3>
       <ul>
         {weights.map((weight) => (
           <li key={weight._id}>
-            {weight.weight} kg on{" "}
-            {new Date(weight.weightOnDate).toLocaleDateString()}
+            {editWeightId === weight._id ? (
+              <div>
+                <input
+                  type="number"
+                  name="weight"
+                  value={newWeight.weight}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  type="date"
+                  name="weightOnDate"
+                  value={newWeight.weightOnDate}
+                  onChange={handleChange}
+                  required
+                />
+                <button onClick={handleUpdateWeight}>Save</button>
+                <button onClick={() => setEditWeightId(null)}>Cancel</button>
+              </div>
+            ) : (
+              <div>
+                {weight.weight} kg on{" "}
+                {new Date(weight.weightOnDate).toLocaleDateString()}
+                <button onClick={() => handleEditWeight(weight._id, weight)}>
+                  Edit
+                </button>
+                <button onClick={() => handleDeleteWeight(weight._id)}>
+                  Delete
+                </button>
+              </div>
+            )}
           </li>
         ))}
       </ul>
