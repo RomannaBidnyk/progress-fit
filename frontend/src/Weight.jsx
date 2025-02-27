@@ -9,17 +9,19 @@ const Weight = () => {
   const [newWeight, setNewWeight] = useState({ weight: "", weightOnDate: "" });
   const [error, setError] = useState(null);
 
-
   useEffect(() => {
     const fetchWeights = async () => {
       try {
-        const response = await fetch("/api/weights", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/weights`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch weights");
@@ -46,14 +48,17 @@ const Weight = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/weights", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(newWeight),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/weights`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(newWeight),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to create weight entry");
