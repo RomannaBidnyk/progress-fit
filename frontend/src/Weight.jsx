@@ -134,6 +134,20 @@ const Weight = () => {
   const handleUpdateWeight = async (e) => {
     e.preventDefault();
 
+    if (
+      weights.some(
+        (w) =>
+          w._id !== editWeightId && // Exclude the currently edited weight
+          new Date(w.weightOnDate).toISOString().split("T")[0] ===
+            newWeight.weightOnDate
+      )
+    ) {
+      setError(
+        "A weight entry already exists for this date. Please choose another date."
+      );
+      return;
+    }
+
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/weights/${editWeightId}`,
