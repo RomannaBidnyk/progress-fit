@@ -1,3 +1,4 @@
+// src/Login.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -28,7 +29,7 @@ const Login = ({ setUser }) => {
 
       localStorage.setItem("token", data.token);
       setUser(data.user);
-      navigate("/"); // Redirect to home page after login
+      navigate("/dashboard"); // Redirect to dashboard after login
     } catch (err) {
       setError(err.message);
     }

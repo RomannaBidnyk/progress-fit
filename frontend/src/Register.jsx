@@ -1,3 +1,4 @@
+// src/Register.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -35,7 +36,7 @@ const Register = ({ setUser }) => {
 
       localStorage.setItem("token", data.token);
       setUser(data.user);
-      navigate("/"); // Redirect to home page after registration
+      navigate("/dashboard"); // Redirect to dashboard after registration
     } catch (err) {
       setError(err.message);
     }

@@ -1,27 +1,23 @@
-import { Link } from "react-router-dom";
+// src/Home.jsx
+import { useNavigate } from "react-router-dom";
 
 const Home = ({ user, setUser }) => {
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
-  };
+  const navigate = useNavigate();
 
   return (
     <div>
-      <h1>ProgressFit App</h1>
+      <h1>Welcome to ProgressFit App</h1>
       {user ? (
-        <>
-          <p>Welcome, {user.name}!</p>
-          <button onClick={handleLogout}>Logout</button>
-        </>
+        <div>
+          <h2>Welcome, {user.name}!</h2>
+          <button onClick={() => navigate("/dashboard")}>
+            Go to Dashboard
+          </button>
+        </div>
       ) : (
         <div>
-          <Link to="/login">
-            <button>Login</button>
-          </Link>
-          <Link to="/register">
-            <button>Register</button>
-          </Link>
+          <button onClick={() => navigate("/login")}>Login</button>
+          <button onClick={() => navigate("/register")}>Register</button>
         </div>
       )}
     </div>
