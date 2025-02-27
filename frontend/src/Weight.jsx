@@ -28,7 +28,9 @@ const Weight = () => {
   const [weights, setWeights] = useState([]);
   const [newWeight, setNewWeight] = useState({ weight: "", weightOnDate: "" });
   const [error, setError] = useState(null);
-  const [editWeightId, setEditWeightId] = useState(null); // Track which weight is being edited
+  const [editWeightId, setEditWeightId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [weightsPerPage] = useState(5);
 
   const getTodayDate = () => {
     const today = new Date();
@@ -232,6 +234,13 @@ const Weight = () => {
     ],
   };
 
+  const indexOfLastWeight = currentPage * weightsPerPage;
+  const indexOfFirstWeight = indexOfLastWeight - weightsPerPage;
+  const currentWeights = weights.slice(indexOfFirstWeight, indexOfLastWeight);
+
+  const totalPages = Math.ceil(weights.length / weightsPerPage);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="weight">
       <h2>Weight Page</h2>
@@ -270,7 +279,7 @@ const Weight = () => {
 
       <h3>Existing Weights</h3>
       <ul>
-        {weights.map((weight) => (
+        {currentWeights.map((weight) => (
           <li key={weight._id}>
             {editWeightId === weight._id ? (
               <div>
@@ -308,6 +317,24 @@ const Weight = () => {
           </li>
         ))}
       </ul>
+
+      <div className="pagination">
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
