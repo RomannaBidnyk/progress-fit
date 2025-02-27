@@ -30,7 +30,11 @@ const Weight = () => {
   const [error, setError] = useState(null);
   const [editWeightId, setEditWeightId] = useState(null); // Track which weight is being edited
 
-  const getTodayDate = () => new Date().toISOString().split("T")[0]; // Ensure correct format
+  const getTodayDate = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset to midnight to avoid time issues
+    return today.toISOString().split("T")[0]; // Return the date in YYYY-MM-DD format
+  };
 
   useEffect(() => {
     const fetchWeights = async () => {
@@ -79,11 +83,13 @@ const Weight = () => {
   const handleCreateWeight = async (e) => {
     e.preventDefault();
 
+    const dateInput = new Date(newWeight.weightOnDate);
+    const formattedDate = dateInput.toISOString().split("T")[0];
+
     if (
       weights.some(
         (w) =>
-          new Date(w.weightOnDate).toISOString().split("T")[0] ===
-          newWeight.weightOnDate
+          new Date(w.weightOnDate).toISOString().split("T")[0] === formattedDate
       )
     ) {
       setError(
@@ -101,7 +107,10 @@ const Weight = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          body: JSON.stringify(newWeight),
+          body: JSON.stringify({
+            ...newWeight,
+            weightOnDate: formattedDate, // Send correctly formatted date
+          }),
         }
       );
 
@@ -134,12 +143,14 @@ const Weight = () => {
   const handleUpdateWeight = async (e) => {
     e.preventDefault();
 
+    const dateInput = new Date(newWeight.weightOnDate);
+    const formattedDate = dateInput.toISOString().split("T")[0];
+
     if (
       weights.some(
         (w) =>
           w._id !== editWeightId && // Exclude the currently edited weight
-          new Date(w.weightOnDate).toISOString().split("T")[0] ===
-            newWeight.weightOnDate
+          new Date(w.weightOnDate).toISOString().split("T")[0] === formattedDate
       )
     ) {
       setError(
@@ -157,7 +168,10 @@ const Weight = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          body: JSON.stringify(newWeight),
+          body: JSON.stringify({
+            ...newWeight,
+            weightOnDate: formattedDate,
+          }),
         }
       );
 
@@ -280,7 +294,9 @@ const Weight = () => {
             ) : (
               <div>
                 {weight.weight} kg on{" "}
-                {new Date(weight.weightOnDate).toLocaleDateString()}
+                {new Date(weight.weightOnDate).toLocaleDateString("en-US", {
+                  timeZone: "UTC",
+                })}
                 <button onClick={() => handleEditWeight(weight._id, weight)}>
                   Edit
                 </button>
