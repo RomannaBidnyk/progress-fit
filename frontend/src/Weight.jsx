@@ -1,10 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Line } from "react-chartjs-2"; 
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Weight = () => {
   const navigate = useNavigate();
@@ -35,7 +51,11 @@ const Weight = () => {
         }
 
         const data = await response.json();
-        setWeights(data.weights);
+        const sortedWeights = data.weights.sort(
+          (a, b) => new Date(a.weightOnDate) - new Date(b.weightOnDate)
+        );
+
+        setWeights(sortedWeights);
       } catch (error) {
         setError(error.message);
         console.error("Error fetching weights:", error);
@@ -59,6 +79,19 @@ const Weight = () => {
   const handleCreateWeight = async (e) => {
     e.preventDefault();
 
+    if (
+      weights.some(
+        (w) =>
+          new Date(w.weightOnDate).toISOString().split("T")[0] ===
+          newWeight.weightOnDate
+      )
+    ) {
+      setError(
+        "Weight entry for this date already exists. Try editing the existing entry."
+      );
+      return;
+    }
+
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/weights`,
@@ -75,10 +108,15 @@ const Weight = () => {
       if (!response.ok) {
         throw new Error("Failed to create weight entry");
       }
-
       const data = await response.json();
-      setWeights([...weights, data.newWeight]);
+
+      const updatedWeights = [...weights, data.newWeight].sort(
+        (a, b) => new Date(a.weightOnDate) - new Date(b.weightOnDate)
+      );
+
+      setWeights(updatedWeights);
       setNewWeight({ weight: "", weightOnDate: getTodayDate() });
+      setError(null);
     } catch (error) {
       setError(error.message);
       console.error("Error creating weight:", error);
@@ -86,7 +124,7 @@ const Weight = () => {
   };
 
   const handleEditWeight = (weightId, weightData) => {
-    setEditWeightId(weightId); // Set the ID of the weight being edited
+    setEditWeightId(weightId);
     setNewWeight({
       weight: weightData.weight,
       weightOnDate: weightData.weightOnDate.split("T")[0],
@@ -119,7 +157,7 @@ const Weight = () => {
       );
       setWeights(updatedWeights);
       setNewWeight({ weight: "", weightOnDate: getTodayDate() });
-      setEditWeightId(null); // Reset the edit mode
+      setEditWeightId(null);
     } catch (error) {
       setError(error.message);
       console.error("Error updating weight:", error);
@@ -151,7 +189,9 @@ const Weight = () => {
   };
 
   const chartData = {
-    labels: weights.map((weight) => new Date(weight.weightOnDate).toLocaleDateString()), // x-axis (dates)
+    labels: weights.map((weight) =>
+      new Date(weight.weightOnDate).toLocaleDateString()
+    ), // x-axis (dates)
     datasets: [
       {
         label: "Weight Over Time (kg)",
@@ -171,10 +211,34 @@ const Weight = () => {
         Back
       </button>
 
-      {error && <p className="error">{error}</p>}
-
       <h3>Weight Chart</h3>
       <Line data={chartData} />
+
+      <h3>Add New Weight</h3>
+      <form onSubmit={handleCreateWeight}>
+        <label>
+          Weight:
+          <input
+            type="number"
+            name="weight"
+            value={newWeight.weight}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <label>
+          Date:
+          <input
+            type="date"
+            name="weightOnDate"
+            value={newWeight.weightOnDate}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <button type="submit">Add Weight</button>
+        {error && <p style={{ color: "red", fontStyle: "italic" }}>{error}</p>}
+      </form>
 
       <h3>Existing Weights</h3>
       <ul>
@@ -214,32 +278,6 @@ const Weight = () => {
           </li>
         ))}
       </ul>
-
-      {/* Create new weight form */}
-      <h3>Add New Weight</h3>
-      <form onSubmit={handleCreateWeight}>
-        <label>
-          Weight:
-          <input
-            type="number"
-            name="weight"
-            value={newWeight.weight}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <label>
-          Date:
-          <input
-            type="date"
-            name="weightOnDate"
-            value={newWeight.weightOnDate}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <button type="submit">Add Weight</button>
-      </form>
     </div>
   );
 };
