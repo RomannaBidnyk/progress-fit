@@ -1,4 +1,3 @@
-// src/Home.jsx
 import { useNavigate } from "react-router-dom";
 
 const Home = ({ user, setUser }) => {

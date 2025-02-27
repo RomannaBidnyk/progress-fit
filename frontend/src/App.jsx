@@ -1,4 +1,3 @@
-// src/App.jsx
 import { useState } from "react";
 import {
   BrowserRouter as Router,
@@ -10,6 +9,8 @@ import Home from "./Home";
 import Login from "./Login";
 import Register from "./Register";
 import Dashboard from "./Dashboard";
+import Weight from "./Weight";
+import Food from "./Food";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -30,6 +31,8 @@ const App = () => {
             )
           }
         />
+        <Route path="/weight" element={<Weight />} />
+        <Route path="/food" element={<Food />} />
       </Routes>
     </Router>
   );
