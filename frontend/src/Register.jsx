@@ -76,6 +76,9 @@ const Register = ({ setUser }) => {
         />
         <button type="submit">Register</button>
       </form>
+      <button className="btn" onClick={() => navigate("/")}>
+        Back
+      </button>
     </div>
   );
 };

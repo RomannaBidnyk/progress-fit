@@ -55,6 +55,9 @@ const Login = ({ setUser }) => {
         />
         <button type="submit">Login</button>
       </form>
+      <button className="btn" onClick={() => navigate("/")}>
+        Back
+      </button>
     </div>
   );
 };
