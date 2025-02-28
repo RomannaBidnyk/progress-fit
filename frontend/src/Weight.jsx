@@ -223,7 +223,12 @@ const Weight = () => {
     labels: weights
       .slice() // Create a copy of the weights array
       .sort((a, b) => new Date(a.weightOnDate) - new Date(b.weightOnDate)) // Ascending order for the chart
-      .map((weight) => new Date(weight.weightOnDate).toLocaleDateString()), // x-axis (dates)
+      .map((weight) =>
+        new Date(weight.weightOnDate).toLocaleDateString("en-US", {
+          timeZone: "UTC",
+        })
+      ), // x-axis (dates)
+
     datasets: [
       {
         label: "Weight Over Time (kg)",
