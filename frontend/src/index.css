@@ -66,3 +66,43 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.food-date-group {
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.food-meal-group {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.food-meal-group h4 {
+  color: #555;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.meal-food-items {
+  margin-left: 20px;
+}
+
+.food-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.food-item h5 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.food-item button {
+  margin-top: 5px;
+  margin-right: 5px;
+}
