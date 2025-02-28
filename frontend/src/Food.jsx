@@ -30,13 +30,22 @@ const Food = () => {
   const calculateCaloriesData = (groupedFoodList, date) => {
     const chartData = [];
     const labels = [];
-    const backgroundColors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#FF9F40"]; // Colors for meals
+    const backgroundColors = [
+      "#FF6384",
+      "#36A2EB",
+      "#FFCE56",
+      "#4BC0C0",
+      "#FF9F40",
+    ];
     let totalCalories = 0;
 
     if (groupedFoodList[date]) {
-      Object.keys(groupedFoodList[date]).forEach((meal, index) => {
+      Object.keys(groupedFoodList[date]).forEach((meal) => {
         const mealFoods = groupedFoodList[date][meal];
-        const mealCalories = mealFoods.reduce((sum, food) => sum + food.calories, 0);
+        const mealCalories = mealFoods.reduce(
+          (sum, food) => sum + food.calories,
+          0
+        );
         chartData.push(mealCalories);
         labels.push(`${meal} (${mealCalories} cal)`);
         totalCalories += mealCalories;
@@ -48,12 +57,12 @@ const Food = () => {
       datasets: [
         {
           label: "Calories per Meal",
-          data: chartData, // Total is NOT added here
+          data: chartData, // Exclude total from chart
           backgroundColor: backgroundColors,
           hoverOffset: 4,
         },
       ],
-      totalCalories, // Store total separately for legend
+      totalCalories, // Store total separately
     };
   };
 
@@ -89,7 +98,9 @@ const Food = () => {
     })
       .then((response) => response.json())
       .then(() => {
-        setFoodList((prevFoodList) => prevFoodList.filter((food) => food._id !== id));
+        setFoodList((prevFoodList) =>
+          prevFoodList.filter((food) => food._id !== id)
+        );
       })
       .catch((error) => console.error("Error deleting food:", error));
   };
@@ -121,7 +132,13 @@ const Food = () => {
             const chartData = calculateCaloriesData(groupedFoodList, date);
             return (
               <div key={date} className="food-date-group">
-                <h3>{date}</h3>
+                {/* Date Header with Total Calories */}
+                <div className="date-header">
+                  <h3>{date}</h3>
+                  <h3 className="total-calories">
+                    {chartData.totalCalories} calories total
+                  </h3>
+                </div>
 
                 {/* Donut Chart */}
                 <div className="doughnut-chart-container">
@@ -132,12 +149,15 @@ const Food = () => {
                       plugins: {
                         legend: {
                           labels: {
-                            color: "#000000", // Ensures all legend text is black
+                            color: "#000000",
                             generateLabels: (chart) => {
-                              let labels = ChartJS.defaults.plugins.legend.labels.generateLabels(chart);
+                              let labels =
+                                ChartJS.defaults.plugins.legend.labels.generateLabels(
+                                  chart
+                                );
                               labels.push({
                                 text: `Total: ${chartData.totalCalories} cal`,
-                                fillStyle: "#000000", // Black color for "Total"
+                                fillStyle: "#000000",
                                 strokeStyle: "#000000",
                                 hidden: false,
                               });
@@ -159,12 +179,20 @@ const Food = () => {
                         <div key={food._id} className="food-item">
                           <div className="food-item-header">
                             <h5>{food.name}</h5>
-                            <p className="highlighted-calories">{food.calories} calories</p>
+                            <p className="highlighted-calories">
+                              {food.calories} calories
+                            </p>
                           </div>
                           <p>Size: {food.size}g</p>
-                          <p>{food.meal} on {formatDate(food.dateEaten)}</p>
-                          <button onClick={() => handleEdit(food._id)}>Edit</button>
-                          <button onClick={() => handleDelete(food._id)}>Delete</button>
+                          <p>
+                            {food.meal} on {formatDate(food.dateEaten)}
+                          </p>
+                          <button onClick={() => handleEdit(food._id)}>
+                            Edit
+                          </button>
+                          <button onClick={() => handleDelete(food._id)}>
+                            Delete
+                          </button>
                         </div>
                       ))}
                     </div>

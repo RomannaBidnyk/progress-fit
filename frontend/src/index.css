@@ -130,8 +130,8 @@ button:focus-visible {
 .highlighted-calories {
   font-size: 1rem;
   font-weight: bold;
-  color: #d9534f;  /* Red color */
-  background-color: #fff3f3;  /* Light red background */
+  color: #d9534f; /* Red color */
+  background-color: #fff3f3; /* Light red background */
   padding: 3px 8px;
   border-radius: 4px;
 }
@@ -140,4 +140,16 @@ button:focus-visible {
   width: 300px;
   height: 300px;
   margin-bottom: 20px;
+}
+
+.date-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.total-calories {
+  font-weight: bold;
+  color: #000000;
 }
