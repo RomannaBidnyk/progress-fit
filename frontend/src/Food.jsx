@@ -10,6 +10,18 @@ const Food = () => {
   const navigate = useNavigate();
   const [foodList, setFoodList] = useState([]);
 
+  // Function to group food items by dateEaten
+  const groupByDate = (foods) => {
+    return foods.reduce((acc, food) => {
+      const date = formatDate(food.dateEaten); // Group by dateEaten now
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(food);
+      return acc;
+    }, {});
+  };
+
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/food`, {
       method: "GET",
@@ -55,27 +67,39 @@ const Food = () => {
     navigate(`/edit-food/${id}`);
   };
 
+  const groupedFoodList = groupByDate(foodList);
+
   return (
     <div className="food">
       <h2>Food Page</h2>
-      <button className="btn" onClick={() => navigate("/add-food")}>
-        Add Food
-      </button>
+
+      {/* Back Button */}
       <button className="btn" onClick={() => navigate("/dashboard")}>
         Back
       </button>
 
+      {/* Add Food Button */}
+      <button className="btn" onClick={() => navigate("/add-food")}>
+        Add Food
+      </button>
+
+      {/* Food List Grouped by dateEaten */}
       <div className="food-list">
-        {foodList.length > 0 ? (
-          foodList.map((food) => (
-            <div key={food._id} className="food-item">
-              <h3>{food.name}</h3>
-              <p>Size: {food.size}g</p>
-              <p>Calories: {food.calories}</p>
-              <p>Meal: {food.meal}</p>
-              <p>Date Added: {formatDate(food.createdAt)}</p>
-              <button onClick={() => handleEdit(food._id)}>Edit</button>
-              <button onClick={() => handleDelete(food._id)}>Delete</button>
+        {Object.keys(groupedFoodList).length > 0 ? (
+          Object.keys(groupedFoodList).map((date) => (
+            <div key={date} className="food-date-group">
+              <h3>{date}</h3>
+              {groupedFoodList[date].map((food) => (
+                <div key={food._id} className="food-item">
+                  <h4>{food.name}</h4>
+                  <p>Size: {food.size}g</p>
+                  <p>Calories: {food.calories}</p>
+                  <p>Meal: {food.meal}</p>
+                  <p>Date Eaten: {formatDate(food.dateEaten)}</p>{" "}
+                  <button onClick={() => handleEdit(food._id)}>Edit</button>
+                  <button onClick={() => handleDelete(food._id)}>Delete</button>
+                </div>
+              ))}
             </div>
           ))
         ) : (
