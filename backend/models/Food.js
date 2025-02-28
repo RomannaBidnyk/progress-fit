@@ -25,6 +25,10 @@ const FoodSchema = new mongoose.Schema(
       enum: ["breakfast", "lunch", "dinner", "snacks"],
       default: "snacks",
     },
+    dateEaten: {
+      type: Date,
+      default: Date.now,
+    },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",

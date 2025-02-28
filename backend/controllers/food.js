@@ -4,7 +4,7 @@ const { BadRequestError, NotFoundError } = require("../errors");
 
 const getAllFoods = async (req, res) => {
   const foods = await Food.find({ createdBy: req.user.userId }).sort(
-    "createdAt"
+    "dateEaten" // Sort by dateEaten now
   );
   res.status(StatusCodes.OK).json({ foods, count: foods.length });
 };
@@ -28,19 +28,31 @@ const getFood = async (req, res) => {
 const createFood = async (req, res) => {
   req.body.createdBy = req.user.userId;
 
-  const { name, calories, size, meal } = req.body;
+  const { name, calories, size, meal, dateEaten } = req.body;
 
   if (!name || !calories) {
     throw new BadRequestError("Name and calories are required fields.");
   }
 
-  const food = await Food.create(req.body);
+  // Ensure dateEaten is a valid date if provided
+  if (dateEaten && isNaN(new Date(dateEaten).getTime())) {
+    throw new BadRequestError("Invalid date for dateEaten.");
+  }
+
+  const food = await Food.create({
+    name,
+    calories,
+    size,
+    meal,
+    dateEaten,
+    createdBy: req.user.userId,
+  });
   res.status(StatusCodes.CREATED).json({ food });
 };
 
 const updateFood = async (req, res) => {
   const {
-    body: { name, calories, size, meal },
+    body: { name, calories, size, meal, dateEaten },
     user: { userId },
     params: { id: foodId },
   } = req;
@@ -49,9 +61,14 @@ const updateFood = async (req, res) => {
     throw new BadRequestError("Name and calories are required fields.");
   }
 
+  // Ensure dateEaten is a valid date if provided
+  if (dateEaten && isNaN(new Date(dateEaten).getTime())) {
+    throw new BadRequestError("Invalid date for dateEaten.");
+  }
+
   const food = await Food.findByIdAndUpdate(
     { _id: foodId, createdBy: userId },
-    { name, calories, size, meal },
+    { name, calories, size, meal, dateEaten }, // Update the dateEaten as well
     { new: true, runValidators: true }
   );
 

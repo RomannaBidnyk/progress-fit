@@ -9,6 +9,7 @@ const EditFood = ({ user }) => {
     size: 1,
     calories: 0,
     meal: "snacks",
+    dateEaten: "", // Add dateEaten state
   });
 
   useEffect(() => {
@@ -58,35 +59,72 @@ const EditFood = ({ user }) => {
   return (
     <div>
       <h2>Edit Food</h2>
+      <button className="btn" onClick={() => navigate("/food")}>
+        Back
+      </button>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          value={food.name}
-          onChange={handleChange}
-          placeholder="Food Name"
-        />
-        <input
-          type="number"
-          name="size"
-          value={food.size}
-          onChange={handleChange}
-          placeholder="Size (grams)"
-        />
-        <input
-          type="number"
-          name="calories"
-          value={food.calories}
-          onChange={handleChange}
-          placeholder="Calories"
-        />
-        <select name="meal" value={food.meal} onChange={handleChange}>
-          <option value="breakfast">Breakfast</option>
-          <option value="lunch">Lunch</option>
-          <option value="dinner">Dinner</option>
-          <option value="snacks">Snacks</option>
-        </select>
-        <button type="submit">Save</button>
+        <div>
+          <label>Name</label>
+          <input
+            type="text"
+            name="name"
+            value={food.name}
+            onChange={handleChange}
+            placeholder="Food Name"
+            required
+          />
+        </div>
+        <div>
+          <label>Size (grams)</label>
+          <input
+            type="number"
+            name="size"
+            value={food.size}
+            onChange={handleChange}
+            placeholder="Size (grams)"
+            required
+            min="1"
+            max="5000"
+          />
+        </div>
+        <div>
+          <label>Calories</label>
+          <input
+            type="number"
+            name="calories"
+            value={food.calories}
+            onChange={handleChange}
+            placeholder="Calories"
+            required
+            min="1"
+            max="5000"
+          />
+        </div>
+        <div>
+          <label>Meal</label>
+          <select
+            name="meal"
+            value={food.meal}
+            onChange={handleChange}
+            required
+          >
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
+            <option value="snacks">Snacks</option>
+          </select>
+        </div>
+        <div>
+          <label>Date Eaten</label>
+          <input
+            type="date"
+            name="dateEaten"
+            value={food.dateEaten}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit">Save Changes</button>
       </form>
     </div>
   );

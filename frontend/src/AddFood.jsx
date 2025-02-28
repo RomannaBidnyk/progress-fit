@@ -8,9 +8,28 @@ const AddFood = () => {
   const [calories, setCalories] = useState(1);
   const [meal, setMeal] = useState("snacks");
 
+  const today = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset to midnight to avoid time issues
+    return today.toISOString().split("T")[0]; // Return the date in YYYY-MM-DD format
+  };
+
+  const [dateEaten, setDateEaten] = useState(today);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const foodData = { name, size, calories, meal };
+    if (!dateEaten) {
+      alert("Please select a date when the food was eaten.");
+      return;
+    }
+
+    const foodData = {
+      name,
+      size,
+      calories,
+      meal,
+      dateEaten, // Use the date entered by the user
+    };
 
     fetch(`${import.meta.env.VITE_API_URL}/api/food`, {
       method: "POST",
@@ -31,6 +50,9 @@ const AddFood = () => {
   return (
     <div className="add-food">
       <h2>Add Food</h2>
+      <button className="btn" onClick={() => navigate("/food")}>
+        Back
+      </button>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Name</label>
@@ -75,6 +97,15 @@ const AddFood = () => {
             <option value="dinner">Dinner</option>
             <option value="snacks">Snacks</option>
           </select>
+        </div>
+        <div>
+          <label>Date Eaten</label>
+          <input
+            type="date"
+            value={dateEaten}
+            onChange={(e) => setDateEaten(e.target.value)}
+            required
+          />
         </div>
         <button type="submit">Add Food</button>
       </form>
