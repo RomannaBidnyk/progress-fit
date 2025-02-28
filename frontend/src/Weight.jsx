@@ -1,5 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Weight = () => {
   const navigate = useNavigate();
@@ -7,9 +28,15 @@ const Weight = () => {
   const [weights, setWeights] = useState([]);
   const [newWeight, setNewWeight] = useState({ weight: "", weightOnDate: "" });
   const [error, setError] = useState(null);
-  const [editWeightId, setEditWeightId] = useState(null); // Track which weight is being edited
+  const [editWeightId, setEditWeightId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [weightsPerPage] = useState(5);
 
-  const getTodayDate = () => new Date().toISOString().split("T")[0]; // Ensure correct format
+  const getTodayDate = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset to midnight to avoid time issues
+    return today.toISOString().split("T")[0]; // Return the date in YYYY-MM-DD format
+  };
 
   useEffect(() => {
     const fetchWeights = async () => {
@@ -30,7 +57,11 @@ const Weight = () => {
         }
 
         const data = await response.json();
-        setWeights(data.weights);
+        const sortedWeights = data.weights.sort(
+          (a, b) => new Date(a.weightOnDate) - new Date(b.weightOnDate)
+        );
+
+        setWeights(sortedWeights);
       } catch (error) {
         setError(error.message);
         console.error("Error fetching weights:", error);
@@ -54,6 +85,21 @@ const Weight = () => {
   const handleCreateWeight = async (e) => {
     e.preventDefault();
 
+    const dateInput = new Date(newWeight.weightOnDate);
+    const formattedDate = dateInput.toISOString().split("T")[0];
+
+    if (
+      weights.some(
+        (w) =>
+          new Date(w.weightOnDate).toISOString().split("T")[0] === formattedDate
+      )
+    ) {
+      setError(
+        "Weight entry for this date already exists. Try editing the existing entry."
+      );
+      return;
+    }
+
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/weights`,
@@ -63,17 +109,25 @@ const Weight = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          body: JSON.stringify(newWeight),
+          body: JSON.stringify({
+            ...newWeight,
+            weightOnDate: formattedDate, // Send correctly formatted date
+          }),
         }
       );
 
       if (!response.ok) {
         throw new Error("Failed to create weight entry");
       }
-
       const data = await response.json();
-      setWeights([...weights, data.newWeight]);
+
+      const updatedWeights = [...weights, data.newWeight].sort(
+        (a, b) => new Date(a.weightOnDate) - new Date(b.weightOnDate)
+      );
+
+      setWeights(updatedWeights);
       setNewWeight({ weight: "", weightOnDate: getTodayDate() });
+      setError(null);
     } catch (error) {
       setError(error.message);
       console.error("Error creating weight:", error);
@@ -81,7 +135,7 @@ const Weight = () => {
   };
 
   const handleEditWeight = (weightId, weightData) => {
-    setEditWeightId(weightId); // Set the ID of the weight being edited
+    setEditWeightId(weightId);
     setNewWeight({
       weight: weightData.weight,
       weightOnDate: weightData.weightOnDate.split("T")[0],
@@ -90,6 +144,22 @@ const Weight = () => {
 
   const handleUpdateWeight = async (e) => {
     e.preventDefault();
+
+    const dateInput = new Date(newWeight.weightOnDate);
+    const formattedDate = dateInput.toISOString().split("T")[0];
+
+    if (
+      weights.some(
+        (w) =>
+          w._id !== editWeightId && // Exclude the currently edited weight
+          new Date(w.weightOnDate).toISOString().split("T")[0] === formattedDate
+      )
+    ) {
+      setError(
+        "A weight entry already exists for this date. Please choose another date."
+      );
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -100,7 +170,10 @@ const Weight = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          body: JSON.stringify(newWeight),
+          body: JSON.stringify({
+            ...newWeight,
+            weightOnDate: formattedDate,
+          }),
         }
       );
 
@@ -114,7 +187,7 @@ const Weight = () => {
       );
       setWeights(updatedWeights);
       setNewWeight({ weight: "", weightOnDate: getTodayDate() });
-      setEditWeightId(null); // Reset the edit mode
+      setEditWeightId(null);
     } catch (error) {
       setError(error.message);
       console.error("Error updating weight:", error);
@@ -145,6 +218,29 @@ const Weight = () => {
     }
   };
 
+  const chartData = {
+    labels: weights.map((weight) =>
+      new Date(weight.weightOnDate).toLocaleDateString()
+    ), // x-axis (dates)
+    datasets: [
+      {
+        label: "Weight Over Time (kg)",
+        data: weights.map((weight) => weight.weight), // y-axis (weights)
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        fill: false,
+        tension: 0.1,
+      },
+    ],
+  };
+
+  const indexOfLastWeight = currentPage * weightsPerPage;
+  const indexOfFirstWeight = indexOfLastWeight - weightsPerPage;
+  const currentWeights = weights.slice(indexOfFirstWeight, indexOfLastWeight);
+
+  const totalPages = Math.ceil(weights.length / weightsPerPage);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="weight">
       <h2>Weight Page</h2>
@@ -152,48 +248,9 @@ const Weight = () => {
         Back
       </button>
 
-      {error && <p className="error">{error}</p>}
+      <h3>Weight Chart</h3>
+      <Line data={chartData} />
 
-      <h3>Existing Weights</h3>
-      <ul>
-        {weights.map((weight) => (
-          <li key={weight._id}>
-            {editWeightId === weight._id ? (
-              <div>
-                <input
-                  type="number"
-                  name="weight"
-                  value={newWeight.weight}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="date"
-                  name="weightOnDate"
-                  value={newWeight.weightOnDate}
-                  onChange={handleChange}
-                  required
-                />
-                <button onClick={handleUpdateWeight}>Save</button>
-                <button onClick={() => setEditWeightId(null)}>Cancel</button>
-              </div>
-            ) : (
-              <div>
-                {weight.weight} kg on{" "}
-                {new Date(weight.weightOnDate).toLocaleDateString()}
-                <button onClick={() => handleEditWeight(weight._id, weight)}>
-                  Edit
-                </button>
-                <button onClick={() => handleDeleteWeight(weight._id)}>
-                  Delete
-                </button>
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
-
-      {/* Create new weight form */}
       <h3>Add New Weight</h3>
       <form onSubmit={handleCreateWeight}>
         <label>
@@ -217,7 +274,67 @@ const Weight = () => {
           />
         </label>
         <button type="submit">Add Weight</button>
+        {error && <p style={{ color: "red", fontStyle: "italic" }}>{error}</p>}
       </form>
+
+      <h3>Existing Weights</h3>
+      <ul>
+        {currentWeights.map((weight) => (
+          <li key={weight._id}>
+            {editWeightId === weight._id ? (
+              <div>
+                <input
+                  type="number"
+                  name="weight"
+                  value={newWeight.weight}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  type="date"
+                  name="weightOnDate"
+                  value={newWeight.weightOnDate}
+                  onChange={handleChange}
+                  required
+                />
+                <button onClick={handleUpdateWeight}>Save</button>
+                <button onClick={() => setEditWeightId(null)}>Cancel</button>
+              </div>
+            ) : (
+              <div>
+                {weight.weight} kg on{" "}
+                {new Date(weight.weightOnDate).toLocaleDateString("en-US", {
+                  timeZone: "UTC",
+                })}
+                <button onClick={() => handleEditWeight(weight._id, weight)}>
+                  Edit
+                </button>
+                <button onClick={() => handleDeleteWeight(weight._id)}>
+                  Delete
+                </button>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+
+      <div className="pagination">
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
