@@ -58,7 +58,7 @@ const Weight = () => {
 
         const data = await response.json();
         const sortedWeights = data.weights.sort(
-          (a, b) => new Date(a.weightOnDate) - new Date(b.weightOnDate)
+          (a, b) => new Date(b.weightOnDate) - new Date(a.weightOnDate) // Descending order for the list
         );
 
         setWeights(sortedWeights);
@@ -122,7 +122,7 @@ const Weight = () => {
       const data = await response.json();
 
       const updatedWeights = [...weights, data.newWeight].sort(
-        (a, b) => new Date(a.weightOnDate) - new Date(b.weightOnDate)
+        (a, b) => new Date(b.weightOnDate) - new Date(a.weightOnDate) // Descending order for the list
       );
 
       setWeights(updatedWeights);
@@ -218,14 +218,19 @@ const Weight = () => {
     }
   };
 
+  // For the chart, sort weights from oldest to newest (ascending)
   const chartData = {
-    labels: weights.map((weight) =>
-      new Date(weight.weightOnDate).toLocaleDateString()
-    ), // x-axis (dates)
+    labels: weights
+      .slice() // Create a copy of the weights array
+      .sort((a, b) => new Date(a.weightOnDate) - new Date(b.weightOnDate)) // Ascending order for the chart
+      .map((weight) => new Date(weight.weightOnDate).toLocaleDateString()), // x-axis (dates)
     datasets: [
       {
         label: "Weight Over Time (kg)",
-        data: weights.map((weight) => weight.weight), // y-axis (weights)
+        data: weights
+          .slice()
+          .sort((a, b) => new Date(a.weightOnDate) - new Date(b.weightOnDate)) // Ascending order for the chart
+          .map((weight) => weight.weight), // y-axis (weights)
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         fill: false,
