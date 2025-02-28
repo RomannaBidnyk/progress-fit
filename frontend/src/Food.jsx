@@ -108,7 +108,7 @@ const Food = () => {
                         </div>
                         <p>Size: {food.size}g</p>
                         <p>
-                          Meal Time: {food.meal} on {formatDate(food.dateEaten)}
+                        {food.meal} on {formatDate(food.dateEaten)}
                         </p>
                         <button onClick={() => handleEdit(food._id)}>
                           Edit
