@@ -1,5 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+
+// Register Chart.js components
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -25,6 +30,38 @@ const Food = () => {
     }, {});
   };
 
+  // Function to calculate the calories per meal for the doughnut chart
+  const calculateCaloriesData = (groupedFoodList, date) => {
+    const chartData = [];
+    const labels = [];
+    
+    if (groupedFoodList[date]) {
+      Object.keys(groupedFoodList[date]).forEach((meal) => {
+        const mealFoods = groupedFoodList[date][meal];
+        const totalCalories = mealFoods.reduce(
+          (sum, food) => sum + food.calories,
+          0
+        );
+        chartData.push(totalCalories);
+        labels.push(`${meal} (${totalCalories} cal)`);
+      });
+    }
+
+    return {
+      labels,
+      datasets: [
+        {
+          label: "Calories per Meal",
+          data: chartData,
+          backgroundColor: [
+            "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#FF9F40"
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    };
+  };
+
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/food`, {
       method: "GET",
@@ -40,7 +77,8 @@ const Food = () => {
         return response.json();
       })
       .then((data) => {
-        setFoodList(data.foods || []);
+        const foods = data.foods || [];
+        setFoodList(foods);
       })
       .catch((error) => {
         console.error("Error fetching foods:", error);
@@ -92,6 +130,12 @@ const Food = () => {
           Object.keys(groupedFoodList).map((date) => (
             <div key={date} className="food-date-group">
               <h3>{date}</h3>
+
+              {/* Display the donut chart for each date */}
+              <div className="doughnut-chart-container">
+                <Doughnut data={calculateCaloriesData(groupedFoodList, date)} />
+              </div>
+
               {/* Loop through each meal type for this date */}
               {Object.keys(groupedFoodList[date]).map((meal) => (
                 <div key={meal} className="food-meal-group">
@@ -108,7 +152,7 @@ const Food = () => {
                         </div>
                         <p>Size: {food.size}g</p>
                         <p>
-                        {food.meal} on {formatDate(food.dateEaten)}
+                          {food.meal} on {formatDate(food.dateEaten)}
                         </p>
                         <button onClick={() => handleEdit(food._id)}>
                           Edit
