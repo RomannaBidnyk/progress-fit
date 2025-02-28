@@ -99,11 +99,17 @@ const Food = () => {
                   <div className="meal-food-items">
                     {groupedFoodList[date][meal].map((food) => (
                       <div key={food._id} className="food-item">
-                        <h5>{food.name}</h5>
+                        <div className="food-item-header">
+                          <h5>{food.name}</h5>
+                          <p className="highlighted-calories">
+                            {food.calories} calories
+                          </p>{" "}
+                          {/* Highlighted calories */}
+                        </div>
                         <p>Size: {food.size}g</p>
-                        <p>Calories: {food.calories}</p>
-                        <p>Meal: {food.meal}</p>
-                        <p>Date Eaten: {formatDate(food.dateEaten)}</p>
+                        <p>
+                          Meal Time: {food.meal} on {formatDate(food.dateEaten)}
+                        </p>
                         <button onClick={() => handleEdit(food._id)}>
                           Edit
                         </button>

@@ -68,14 +68,14 @@ button:focus-visible {
 }
 
 .food-date-group {
-  margin-bottom: 20px;
-  border-bottom: 2px solid #ccc;
-  padding-bottom: 10px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 8px;
 }
 
 .food-meal-group {
-  margin-top: 10px;
-  margin-left: 20px;
+  margin-top: 5px;
+  margin-left: 15px;
 }
 
 .food-meal-group h4 {
@@ -85,24 +85,53 @@ button:focus-visible {
 }
 
 .meal-food-items {
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
 .food-item {
-  margin-bottom: 10px;
-  padding: 10px;
+  margin-bottom: 8px;
+  padding: 8px;
   background-color: #f9f9f9;
   border-radius: 5px;
   border: 1px solid #ddd;
 }
 
-.food-item h5 {
+.food-item-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3px;
+}
+
+.food-item-header h5 {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: bold;
 }
 
+.food-item-header p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.food-item p {
+  margin: 2px 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
 .food-item button {
-  margin-top: 5px;
+  margin-top: 3px;
   margin-right: 5px;
+  font-size: 0.9rem;
+}
+
+/* Highlighted calories */
+.highlighted-calories {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #d9534f;  /* Red color */
+  background-color: #fff3f3;  /* Light red background */
+  padding: 3px 8px;
+  border-radius: 4px;
 }
