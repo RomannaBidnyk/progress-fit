@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./LoginRegister.module.css";
 
 const Register = ({ setUser }) => {
   const [name, setName] = useState("");
@@ -45,9 +46,9 @@ const Register = ({ setUser }) => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <h2>Register</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className={styles.error}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -79,9 +80,9 @@ const Register = ({ setUser }) => {
         />
         <button type="submit">Register</button>
       </form>
-      <button className="btn" onClick={() => navigate("/")}>
-        Back
-      </button>
+      <a href="#" className={styles.cancelLink} onClick={() => navigate("/")}>
+        Cancel
+      </a>
     </div>
   );
 };

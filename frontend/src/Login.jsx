@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./LoginRegister.module.css";
 
 const Login = ({ setUser }) => {
   const [email, setEmail] = useState("");
@@ -38,9 +39,9 @@ const Login = ({ setUser }) => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <h2>Login</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className={styles.error}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <input
           type="email"
@@ -58,9 +59,9 @@ const Login = ({ setUser }) => {
         />
         <button type="submit">Login</button>
       </form>
-      <button className="btn" onClick={() => navigate("/")}>
-        Back
-      </button>
+      <a href="#" className={styles.cancelLink} onClick={() => navigate("/")}>
+        Cancel
+      </a>
     </div>
   );
 };
