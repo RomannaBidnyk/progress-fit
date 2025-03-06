@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./Dashboard.module.css"; // Import the styles
+import styles from "./Dashboard.module.css";
+import weightIcon from "./assets/weight-icon.jpg";
+import foodIcon from "./assets/food-icon.webp";
 
 const Dashboard = ({ user, setUser }) => {
   const navigate = useNavigate();
@@ -18,12 +20,14 @@ const Dashboard = ({ user, setUser }) => {
         buttons below to navigate to different sections.
       </p>
       <div className={styles.dashboardButtons}>
-        <button className={styles.btn} onClick={() => navigate("/weight")}>
-          Weight
-        </button>
-        <button className={styles.btn} onClick={() => navigate("/food")}>
-          Food
-        </button>
+        <div className={styles.card} onClick={() => navigate("/weight")}>
+          <img src={weightIcon} alt="Weight" />
+          <p>Log Weight</p>
+        </div>
+        <div className={styles.card} onClick={() => navigate("/food")}>
+          <img src={foodIcon} alt="Food" />
+          <p>Track Food</p>
+        </div>
       </div>
       <br />
       <a href="#" className={styles.logoutLink} onClick={handleLogout}>
