@@ -1,0 +1,25 @@
+/* Dashboard.module.css */
+
+.dashboard {
+  text-align: center;
+  padding: 20px;
+}
+
+.description {
+  text-align: center;
+  max-width: 600px;
+  font-style: italic;
+  color: #555;
+}
+
+.logoutLink {
+  display: block;
+  color: #3e63b9;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.logoutLink:hover {
+  color: #344599;
+}
