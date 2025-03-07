@@ -42,7 +42,7 @@ const Login = ({ setUser }) => {
     <div className={styles.container}>
       <h2>Login</h2>
       {error && <p className={styles.error}>{error}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}  className={styles.loginRegisterForm}>
         <input
           type="email"
           placeholder="Email"

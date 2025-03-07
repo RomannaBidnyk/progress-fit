@@ -49,7 +49,7 @@ const Register = ({ setUser }) => {
     <div className={styles.container}>
       <h2>Register</h2>
       {error && <p className={styles.error}>{error}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.loginRegisterForm}>
         <input
           type="text"
           placeholder="Name"
