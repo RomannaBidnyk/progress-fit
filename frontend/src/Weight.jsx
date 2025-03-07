@@ -296,10 +296,10 @@ const Weight = () => {
         {error && <p className={styles.error}>{error}</p>}
       </form>
 
-      <h3>Existing Weights</h3>
-      <ul>
+      <h3 className={styles.existingWeightsTitle}>Existing Weights</h3>
+      <ul className={styles.weightList}>
         {currentWeights.map((weight) => (
-          <li key={weight._id}>
+          <li key={weight._id} className={styles.weightItem}>
             {editWeightId === weight._id ? (
               <div>
                 <input
@@ -316,8 +316,20 @@ const Weight = () => {
                   onChange={handleChange}
                   required
                 />
-                <button onClick={handleUpdateWeight}>Save</button>
-                <button onClick={() => setEditWeightId(null)}>Cancel</button>
+                <div className={styles.buttonGroup}>
+                  <button
+                    onClick={handleUpdateWeight}
+                    className={styles.saveButton}
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => setEditWeightId(null)}
+                    className={styles.cancelButton}
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             ) : (
               <div>
@@ -325,12 +337,20 @@ const Weight = () => {
                 {new Date(weight.weightOnDate).toLocaleDateString("en-US", {
                   timeZone: "UTC",
                 })}
-                <button onClick={() => handleEditWeight(weight._id, weight)}>
-                  Edit
-                </button>
-                <button onClick={() => handleDeleteWeight(weight._id)}>
-                  Delete
-                </button>
+                <div className={styles.buttonGroup}>
+                  <button
+                    className={styles.editButton}
+                    onClick={() => handleEditWeight(weight._id, weight)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={() => handleDeleteWeight(weight._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             )}
           </li>

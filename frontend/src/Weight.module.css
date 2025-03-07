@@ -68,3 +68,118 @@ input {
   color: red;
   font-style: italic;
 }
+
+/* Style for the existing weights section */
+.existingWeightsTitle {
+  font-size: 20px;
+  margin-top: 20px;
+  color: #333;
+  font-weight: bold;
+}
+
+.weightList {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.weightItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.4rem 0;
+  padding: 0.3rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  list-style: none;
+}
+
+.weightItem:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+}
+.editButton,
+.saveButton {
+  background-color: #4790cf;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.editButton:hover,
+.saveButton:hover {
+  background-color: #3b6fad;
+}
+
+.cancelButton {
+  background-color: #f0982c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.cancelButton:hover {
+  background-color: #ea6f23;
+}
+
+.deleteButton {
+  background-color: #b81500;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.deleteButton:hover {
+  background-color: #a00000;
+}
+
+/* Pagination styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pagination button:hover {
+  background-color: #0056b3;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 14px;
+  align-self: center;
+}

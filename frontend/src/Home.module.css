@@ -17,35 +17,6 @@ h1 {
   font-style: italic;
 }
 
-/* button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  margin: 10px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:first-of-type {
-  background-color: #007bff;
-  color: white;
-}
-
-button:first-of-type:hover {
-  background-color: #00b8d4;
-  color: white;
-}
-
-button:last-of-type {
-  background-color: #28a745;
-  color: white;
-}
-
-button:last-of-type:hover {
-  background-color: #1de9b6;
-  color: white;
-} */
-
 .homeButton {
   padding: 10px 20px;
   font-size: 1rem;
