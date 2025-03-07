@@ -253,7 +253,7 @@ const Weight = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.weightContainer}>
       <button
         className={styles.backButton}
         onClick={() => navigate("/dashboard")}
@@ -269,7 +269,7 @@ const Weight = () => {
       </div>
 
       <h3 className={styles.sectionTitle}>Add New Weight</h3>
-      <form className={styles.form} onSubmit={handleCreateWeight}>
+      <form className={styles.addWeightForm} onSubmit={handleCreateWeight}>
         <label>
           Weight:
           <input
@@ -293,9 +293,9 @@ const Weight = () => {
         <button type="submit" className={styles.addButton}>
           Add Weight
         </button>
-        {error && <p className={styles.error}>{error}</p>}
       </form>
-
+      {error && <p className={styles.error}>{error}</p>}
+      
       <h3 className={styles.existingWeightsTitle}>Existing Weights</h3>
       <ul className={styles.weightList}>
         {currentWeights.map((weight) => (

@@ -46,7 +46,7 @@ const Register = ({ setUser }) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.loginRegisterContainer}>
       <h2>Register</h2>
       {error && <p className={styles.error}>{error}</p>}
       <form onSubmit={handleSubmit} className={styles.loginRegisterForm}>

@@ -39,7 +39,7 @@ const Login = ({ setUser }) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.loginRegisterContainer}>
       <h2>Login</h2>
       {error && <p className={styles.error}>{error}</p>}
       <form onSubmit={handleSubmit}  className={styles.loginRegisterForm}>

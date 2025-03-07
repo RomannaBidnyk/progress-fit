@@ -1,6 +1,5 @@
-.container {
-  width: 100%;
-  /* max-width: 900px; */
+.weightContainer {
+  max-width: 600px;
   margin: auto;
   padding: 20px;
 }
@@ -39,10 +38,16 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.form {
+.addWeightForm {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+   margin: 0.4rem 0;
+  padding: 0.3rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  /* gap: 10px; */
 }
 
 input {
