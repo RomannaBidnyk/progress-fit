@@ -29,11 +29,14 @@ const Home = ({ user, setUser }) => {
         </div>
       ) : (
         <div>
-          <button className={styles.button} onClick={() => navigate("/login")}>
+          <button
+            className={styles.homeButton}
+            onClick={() => navigate("/login")}
+          >
             Login
           </button>
           <button
-            className={styles.button}
+            className={styles.homeButton}
             onClick={() => navigate("/register")}
           >
             Register

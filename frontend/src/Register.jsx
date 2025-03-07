@@ -78,7 +78,9 @@ const Register = ({ setUser }) => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
-        <button type="submit">Register</button>
+        <button type="submit" className={styles.registerButton}>
+          Register
+        </button>
       </form>
       <a href="#" className={styles.cancelLink} onClick={() => navigate("/")}>
         Cancel

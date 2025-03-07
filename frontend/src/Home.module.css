@@ -17,7 +17,7 @@ h1 {
   font-style: italic;
 }
 
-button {
+/* button {
   padding: 10px 20px;
   font-size: 1rem;
   margin: 10px;
@@ -42,6 +42,35 @@ button:last-of-type {
 }
 
 button:last-of-type:hover {
+  background-color: #1de9b6;
+  color: white;
+} */
+
+.homeButton {
+  padding: 10px 20px;
+  font-size: 1rem;
+  margin: 10px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.homeButton:first-of-type {
+  background-color: #007bff;
+  color: white;
+}
+
+.homeButton:first-of-type:hover {
+  background-color: #00b8d4;
+  color: white;
+}
+
+.homeButton:last-of-type {
+  background-color: #28a745;
+  color: white;
+}
+
+.homeButton:last-of-type:hover {
   background-color: #1de9b6;
   color: white;
 }

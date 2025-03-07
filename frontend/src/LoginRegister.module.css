@@ -47,3 +47,33 @@ input {
   color: red;
   margin-bottom: 10px;
 }
+
+.loginButton {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #007bff;
+  color: white;
+}
+
+.loginButton:hover {
+  background-color: #00b8d4;
+  color: white;
+}
+
+.registerButton {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #28a745;
+  color: white;
+}
+
+.registerButton:hover {
+  background-color: #1de9b6;
+  color: white;
+}

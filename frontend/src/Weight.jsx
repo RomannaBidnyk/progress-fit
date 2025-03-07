@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
+import styles from "./Weight.module.css";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -252,17 +253,23 @@ const Weight = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="weight">
-      <h2>Weight Page</h2>
-      <button className="btn" onClick={() => navigate("/dashboard")}>
-        Back
+    <div className={styles.container}>
+      <button
+        className={styles.backButton}
+        onClick={() => navigate("/dashboard")}
+      >
+        ← Return to Dashboard
       </button>
 
-      <h3>Weight Chart</h3>
-      <Line data={chartData} />
+      <h2 className={styles.title}>Weight Tracker</h2>
 
-      <h3>Add New Weight</h3>
-      <form onSubmit={handleCreateWeight}>
+      <h3 className={styles.sectionTitle}>Weight Chart</h3>
+      <div className={styles.chartContainer}>
+        <Line data={chartData} />
+      </div>
+
+      <h3 className={styles.sectionTitle}>Add New Weight</h3>
+      <form className={styles.form} onSubmit={handleCreateWeight}>
         <label>
           Weight:
           <input
@@ -283,8 +290,10 @@ const Weight = () => {
             required
           />
         </label>
-        <button type="submit">Add Weight</button>
-        {error && <p style={{ color: "red", fontStyle: "italic" }}>{error}</p>}
+        <button type="submit" className={styles.addButton}>
+          Add Weight
+        </button>
+        {error && <p className={styles.error}>{error}</p>}
       </form>
 
       <h3>Existing Weights</h3>

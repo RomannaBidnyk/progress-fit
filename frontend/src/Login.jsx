@@ -57,7 +57,9 @@ const Login = ({ setUser }) => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Login</button>
+        <button type="submit" className={styles.loginButton}>
+          Login
+        </button>
       </form>
       <a href="#" className={styles.cancelLink} onClick={() => navigate("/")}>
         Cancel
