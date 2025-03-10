@@ -26,18 +26,34 @@
 }
 
 .addFood {
-  font-size: 1rem;
-  padding: 8px 16px;
+  font-size: 1.5rem;
+  padding: 10px 15px;
   border: none;
-  border-radius: 5px;
-  background-color: #007bff;
+  border-radius: 8px;
+  background-color: #28a745;
   color: white;
   cursor: pointer;
-  margin-bottom: 15px;
+  display: block;
+  margin: 0 auto;
+  width: 150px;
+  text-align: center;
+  transition: background-color 0.3s ease;
 }
 
 .addFood:hover {
-  background-color: #0056b3;
+  background-color: #218838;
+}
+
+.cancelLink {
+  margin-top: 20px;
+  color: #3e63b9;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.cancelLink:hover {
+  color: #344599;
 }
 
 .foodList {
