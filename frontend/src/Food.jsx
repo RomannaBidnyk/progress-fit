@@ -160,8 +160,20 @@ const Food = () => {
                           },
                           tooltip: {
                             callbacks: {
-                              label: (tooltipItem) =>
-                                `${tooltipItem.label}: ${tooltipItem.raw} cal`,
+                              label: (tooltipItem) => {
+                                return `${tooltipItem.label.split(" (")[0]}: ${
+                                  tooltipItem.raw
+                                } cal`;
+                              },
+                              footer: (tooltipItems) => {
+                                const dataset =
+                                  tooltipItems[0]?.dataset?.data || [];
+                                const totalCalories = dataset.reduce(
+                                  (acc, val) => acc + val,
+                                  0
+                                );
+                                return `Total Calories: ${totalCalories} cal`;
+                              },
                             },
                           },
                           title: {
