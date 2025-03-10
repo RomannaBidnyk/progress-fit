@@ -33,7 +33,14 @@
   margin-bottom: 5px;
 }
 
-.formGroup input,
+.formGroup input {
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
 .formGroup select {
   width: 100%;
   padding: 10px;
