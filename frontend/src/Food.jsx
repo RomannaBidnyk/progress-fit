@@ -139,10 +139,10 @@ const Food = () => {
               <div key={date} className={styles.foodDateGroup}>
                 {/* Date Header with Total Calories */}
                 <div className={styles.dateHeader}>
-                  <h3>{date}</h3>
                   <h3 className={styles.totalCalories}>
                     {chartData.totalCalories} calories total
                   </h3>
+                  <h3>{date}</h3>
                 </div>
 
                 {/* Donut Chart */}

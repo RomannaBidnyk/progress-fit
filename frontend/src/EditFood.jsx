@@ -66,7 +66,7 @@ const EditFood = ({ user }) => {
         <h2>Edit Food</h2>
         <form onSubmit={handleSubmit}>
           <div className={styles.formGroup}>
-            <label>Name</label>
+            <label>Food name</label>
             <input
               type="text"
               name="name"
