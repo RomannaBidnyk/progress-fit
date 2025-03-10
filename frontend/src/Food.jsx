@@ -152,24 +152,21 @@ const Food = () => {
                       data={chartData}
                       options={{
                         responsive: true,
+                        maintainAspectRatio: false,
                         plugins: {
                           legend: {
-                            labels: {
-                              color: "#000000",
-                              generateLabels: (chart) => {
-                                let labels =
-                                  ChartJS.defaults.plugins.legend.labels.generateLabels(
-                                    chart
-                                  );
-                                labels.push({
-                                  text: `Total: ${chartData.totalCalories} cal`,
-                                  fillStyle: "#000000",
-                                  strokeStyle: "#000000",
-                                  hidden: false,
-                                });
-                                return labels;
-                              },
+                            display: true,
+                            position: "bottom",
+                          },
+                          tooltip: {
+                            callbacks: {
+                              label: (tooltipItem) =>
+                                `${tooltipItem.label}: ${tooltipItem.raw} cal`,
                             },
+                          },
+                          title: {
+                            display: true,
+                            text: "Calories per meal",
                           },
                         },
                       }}
