@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./Food.module.css";
 
 const AddFood = () => {
   const navigate = useNavigate();
@@ -50,9 +51,6 @@ const AddFood = () => {
   return (
     <div className="add-food">
       <h2>Add Food</h2>
-      <button className="btn" onClick={() => navigate("/food")}>
-        Back
-      </button>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Name</label>
@@ -109,6 +107,13 @@ const AddFood = () => {
         </div>
         <button type="submit">Add Food</button>
       </form>
+      <a
+        href="#"
+        className={styles.cancelLink}
+        onClick={() => navigate("/food")}
+      >
+        Cancel
+      </a>
     </div>
   );
 };

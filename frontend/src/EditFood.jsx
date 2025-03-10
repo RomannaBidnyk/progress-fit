@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import styles from "./Food.module.css";
 
 const EditFood = ({ user }) => {
   const { id } = useParams();
@@ -59,9 +60,6 @@ const EditFood = ({ user }) => {
   return (
     <div>
       <h2>Edit Food</h2>
-      <button className="btn" onClick={() => navigate("/food")}>
-        Back
-      </button>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Name</label>
@@ -126,6 +124,13 @@ const EditFood = ({ user }) => {
         </div>
         <button type="submit">Save Changes</button>
       </form>
+      <a
+        href="#"
+        className={styles.cancelLink}
+        onClick={() => navigate("/food")}
+      >
+        Cancel
+      </a>
     </div>
   );
 };

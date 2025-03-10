@@ -6,7 +6,7 @@ const Home = ({ user, setUser }) => {
   const navigate = useNavigate();
 
   return (
-    <div className={styles.container}>
+    <div className={styles.homeContainer}>
       <h1>Welcome to ProgressFit App</h1>
 
       <img className={styles.homeImage} src={homeImage} alt="ProgressFit App" />
@@ -29,11 +29,14 @@ const Home = ({ user, setUser }) => {
         </div>
       ) : (
         <div>
-          <button className={styles.button} onClick={() => navigate("/login")}>
+          <button
+            className={styles.homeButton}
+            onClick={() => navigate("/login")}
+          >
             Login
           </button>
           <button
-            className={styles.button}
+            className={styles.homeButton}
             onClick={() => navigate("/register")}
           >
             Register

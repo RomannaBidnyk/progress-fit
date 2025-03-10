@@ -46,10 +46,10 @@ const Register = ({ setUser }) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.loginRegisterContainer}>
       <h2>Register</h2>
       {error && <p className={styles.error}>{error}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.loginRegisterForm}>
         <input
           type="text"
           placeholder="Name"
@@ -78,7 +78,9 @@ const Register = ({ setUser }) => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
-        <button type="submit">Register</button>
+        <button type="submit" className={styles.registerButton}>
+          Register
+        </button>
       </form>
       <a href="#" className={styles.cancelLink} onClick={() => navigate("/")}>
         Cancel

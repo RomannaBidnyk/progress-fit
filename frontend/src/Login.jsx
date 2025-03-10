@@ -39,10 +39,10 @@ const Login = ({ setUser }) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.loginRegisterContainer}>
       <h2>Login</h2>
       {error && <p className={styles.error}>{error}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}  className={styles.loginRegisterForm}>
         <input
           type="email"
           placeholder="Email"
@@ -57,7 +57,9 @@ const Login = ({ setUser }) => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Login</button>
+        <button type="submit" className={styles.loginButton}>
+          Login
+        </button>
       </form>
       <a href="#" className={styles.cancelLink} onClick={() => navigate("/")}>
         Cancel

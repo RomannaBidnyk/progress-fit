@@ -1,0 +1,207 @@
+.weightContainer {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+}
+
+.backButton {
+  background: gray;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.backButton:hover {
+  background: #0056b3;
+}
+
+.title {
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  margin-top: 20px;
+  color: #555;
+}
+
+.chartContainer {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.addWeightForm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.3rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+input {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.addButton {
+  background: #28a745;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.addButton:hover {
+  background: #218838;
+}
+
+.error {
+  color: red;
+  font-style: italic;
+}
+
+/* Style for the existing weights section */
+.existingWeightsTitle {
+  font-size: 20px;
+  margin-top: 20px;
+  color: #333;
+  font-weight: bold;
+}
+
+.weightList {
+  list-style: none;
+  gap: 10px;
+  padding: 0.3rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.weightItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin: 0.4rem 0;
+  padding: 0.3rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  color: black;
+}
+
+.weightItem > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.weightItem:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 5px;
+  margin-left: auto;
+}
+
+.editButton,
+.saveButton {
+  background-color: #4790cf;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.editButton:hover,
+.saveButton:hover {
+  background-color: #3b6fad;
+}
+
+.cancelButton {
+  background-color: #f0982c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.cancelButton:hover {
+  background-color: #ea6f23;
+}
+
+.deleteButton {
+  background-color: #b81500;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.deleteButton:hover {
+  background-color: #a00000;
+}
+
+/* Pagination styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.paginationButton {
+  background-color: #008c5c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.paginationButton:hover {
+  background-color: #1f4a34;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.active {
+  background-color: #1f4a34;
+  font-weight: bold;
+}

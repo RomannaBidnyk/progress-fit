@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
+import styles from "./Weight.module.css";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -250,19 +251,26 @@ const Weight = () => {
 
   const totalPages = Math.ceil(weights.length / weightsPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <div className="weight">
-      <h2>Weight Page</h2>
-      <button className="btn" onClick={() => navigate("/dashboard")}>
-        Back
+    <div className={styles.weightContainer}>
+      <button
+        className={styles.backButton}
+        onClick={() => navigate("/dashboard")}
+      >
+        ← Dashboard
       </button>
 
-      <h3>Weight Chart</h3>
-      <Line data={chartData} />
+      <h2 className={styles.title}>Weight Tracker</h2>
 
-      <h3>Add New Weight</h3>
-      <form onSubmit={handleCreateWeight}>
+      <h3 className={styles.sectionTitle}>Weight Chart</h3>
+      <div className={styles.chartContainer}>
+        <Line data={chartData} />
+      </div>
+
+      <h3 className={styles.sectionTitle}>Add New Weight</h3>
+      <form className={styles.addWeightForm} onSubmit={handleCreateWeight}>
         <label>
           Weight:
           <input
@@ -283,14 +291,16 @@ const Weight = () => {
             required
           />
         </label>
-        <button type="submit">Add Weight</button>
-        {error && <p style={{ color: "red", fontStyle: "italic" }}>{error}</p>}
+        <button type="submit" className={styles.addButton}>
+          Add Weight
+        </button>
       </form>
+      {error && <p className={styles.error}>{error}</p>}
 
-      <h3>Existing Weights</h3>
-      <ul>
+      <h3 className={styles.existingWeightsTitle}>Existing Weights</h3>
+      <ul className={styles.weightList}>
         {currentWeights.map((weight) => (
-          <li key={weight._id}>
+          <li key={weight._id} className={styles.weightItem}>
             {editWeightId === weight._id ? (
               <div>
                 <input
@@ -307,40 +317,78 @@ const Weight = () => {
                   onChange={handleChange}
                   required
                 />
-                <button onClick={handleUpdateWeight}>Save</button>
-                <button onClick={() => setEditWeightId(null)}>Cancel</button>
+                <div className={styles.buttonGroup}>
+                  <button
+                    onClick={handleUpdateWeight}
+                    className={styles.saveButton}
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => setEditWeightId(null)}
+                    className={styles.cancelButton}
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             ) : (
               <div>
-                {weight.weight} kg on{" "}
-                {new Date(weight.weightOnDate).toLocaleDateString("en-US", {
-                  timeZone: "UTC",
-                })}
-                <button onClick={() => handleEditWeight(weight._id, weight)}>
-                  Edit
-                </button>
-                <button onClick={() => handleDeleteWeight(weight._id)}>
-                  Delete
-                </button>
+                <span>
+                  <strong>{weight.weight}</strong> kg on{" "}
+                  {new Date(weight.weightOnDate).toLocaleDateString("en-US", {
+                    timeZone: "UTC",
+                  })}
+                </span>
+                <div className={styles.buttonGroup}>
+                  <button
+                    className={styles.editButton}
+                    onClick={() => handleEditWeight(weight._id, weight)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={() => handleDeleteWeight(weight._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             )}
           </li>
         ))}
       </ul>
 
-      <div className="pagination">
+      <div className={styles.pagination}>
         <button
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
+          className={`${styles.paginationButton} ${
+            currentPage === 1 ? styles.disabled : ""
+          }`}
         >
           Previous
         </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
+
+        {pageNumbers.map((page) => (
+          <button
+            key={page}
+            onClick={() => paginate(page)}
+            className={`${styles.paginationButton} ${
+              page === currentPage ? styles.active : ""
+            }`}
+          >
+            {page}
+          </button>
+        ))}
+
         <button
           onClick={() => paginate(currentPage + 1)}
           disabled={currentPage === totalPages}
+          className={`${styles.paginationButton} ${
+            currentPage === totalPages ? styles.disabled : ""
+          }`}
         >
           Next
         </button>

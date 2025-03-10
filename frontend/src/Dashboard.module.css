@@ -1,0 +1,58 @@
+.dashboard {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.description {
+  text-align: center;
+  max-width: 600px;
+  font-style: italic;
+  color: #555;
+}
+
+.logoutLink {
+  display: block;
+  color: #3e63b9;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.logoutLink:hover {
+  color: #344599;
+}
+
+.dashboardButtons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.card {
+  width: 150px;
+  background: white;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card img {
+  width: 50px;
+  height: 50px;
+}
+
+.card p {
+  margin-top: 5px;
+  font-weight: bold;
+}

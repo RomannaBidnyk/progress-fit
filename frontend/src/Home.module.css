@@ -1,4 +1,4 @@
-.container {
+.homeContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,13 +13,11 @@ h1 {
 
 .description {
   text-align: center;
-
   max-width: 600px;
-
   font-style: italic;
 }
 
-button {
+.homeButton {
   padding: 10px 20px;
   font-size: 1rem;
   margin: 10px;
@@ -28,22 +26,22 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:first-of-type {
+.homeButton:first-of-type {
   background-color: #007bff;
   color: white;
 }
 
-button:first-of-type:hover {
+.homeButton:first-of-type:hover {
   background-color: #00b8d4;
   color: white;
 }
 
-button:last-of-type {
+.homeButton:last-of-type {
   background-color: #28a745;
   color: white;
 }
 
-button:last-of-type:hover {
+.homeButton:last-of-type:hover {
   background-color: #1de9b6;
   color: white;
 }
