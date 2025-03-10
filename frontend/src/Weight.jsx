@@ -251,6 +251,7 @@ const Weight = () => {
 
   const totalPages = Math.ceil(weights.length / weightsPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
     <div className={styles.weightContainer}>
@@ -295,7 +296,7 @@ const Weight = () => {
         </button>
       </form>
       {error && <p className={styles.error}>{error}</p>}
-      
+
       <h3 className={styles.existingWeightsTitle}>Existing Weights</h3>
       <ul className={styles.weightList}>
         {currentWeights.map((weight) => (
@@ -357,19 +358,35 @@ const Weight = () => {
         ))}
       </ul>
 
-      <div className="pagination">
+      <div className={styles.pagination}>
         <button
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
+          className={`${styles.paginationButton} ${
+            currentPage === 1 ? styles.disabled : ""
+          }`}
         >
           Previous
         </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
+
+        {pageNumbers.map((page) => (
+          <button
+            key={page}
+            onClick={() => paginate(page)}
+            className={`${styles.paginationButton} ${
+              page === currentPage ? styles.active : ""
+            }`}
+          >
+            {page}
+          </button>
+        ))}
+
         <button
           onClick={() => paginate(currentPage + 1)}
           disabled={currentPage === totalPages}
+          className={`${styles.paginationButton} ${
+            currentPage === totalPages ? styles.disabled : ""
+          }`}
         >
           Next
         </button>
