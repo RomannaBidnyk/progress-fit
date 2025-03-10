@@ -5,14 +5,14 @@
 }
 
 .backButton {
-  background: #007bff;
+  background: gray;
   color: white;
   border: none;
   padding: 10px 15px;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .backButton:hover {
@@ -99,12 +99,21 @@ input {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 15px;
   margin: 0.4rem 0;
   padding: 0.3rem;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   list-style: none;
+  color: black;
+}
+
+.weightItem > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-grow: 1;
 }
 
 .weightItem:hover {
@@ -113,10 +122,10 @@ input {
 
 .buttonGroup {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
   gap: 5px;
+  margin-left: auto;
 }
+
 .editButton,
 .saveButton {
   background-color: #4790cf;

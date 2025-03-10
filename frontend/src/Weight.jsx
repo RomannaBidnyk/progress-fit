@@ -259,7 +259,7 @@ const Weight = () => {
         className={styles.backButton}
         onClick={() => navigate("/dashboard")}
       >
-        ← Return to Dashboard
+        ← Dashboard
       </button>
 
       <h2 className={styles.title}>Weight Tracker</h2>
@@ -334,10 +334,12 @@ const Weight = () => {
               </div>
             ) : (
               <div>
-                {weight.weight} kg on{" "}
-                {new Date(weight.weightOnDate).toLocaleDateString("en-US", {
-                  timeZone: "UTC",
-                })}
+                <span>
+                  <strong>{weight.weight}</strong>1 kg on{" "}
+                  {new Date(weight.weightOnDate).toLocaleDateString("en-US", {
+                    timeZone: "UTC",
+                  })}
+                </span>
                 <div className={styles.buttonGroup}>
                   <button
                     className={styles.editButton}
