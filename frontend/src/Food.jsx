@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from "chart.js";
+import styles from "./Food.module.css";
 
 // Register chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
@@ -112,36 +113,38 @@ const Food = () => {
   const groupedFoodList = groupByDateAndMeal(foodList);
 
   return (
-    <div className="food">
-      <h2>Food Page</h2>
-
-      {/* Back Button */}
-      <button className="btn" onClick={() => navigate("/dashboard")}>
-        Back
+    <div className={styles.food}>
+      <button
+        className={styles.backButton}
+        onClick={() => navigate("/dashboard")}
+      >
+        ← Dashboard
       </button>
 
+      <h2 className={styles.title}>Food Tracker</h2>
+
       {/* Add Food Button */}
-      <button className="btn" onClick={() => navigate("/add-food")}>
+      <button className={styles.addFood} onClick={() => navigate("/add-food")}>
         Add Food
       </button>
 
       {/* Food List Grouped by Date and Meal */}
-      <div className="food-list">
+      <div className={styles.foodList}>
         {Object.keys(groupedFoodList).length > 0 ? (
           Object.keys(groupedFoodList).map((date) => {
             const chartData = calculateCaloriesData(groupedFoodList, date);
             return (
-              <div key={date} className="food-date-group">
+              <div key={date} className={styles.foodDateGroup}>
                 {/* Date Header with Total Calories */}
-                <div className="date-header">
+                <div className={styles.dateHeader}>
                   <h3>{date}</h3>
-                  <h3 className="total-calories">
+                  <h3 className={styles.totalCalories}>
                     {chartData.totalCalories} calories total
                   </h3>
                 </div>
 
                 {/* Donut Chart */}
-                <div className="doughnut-chart-container">
+                <div className={styles.doughnutChartContainer}>
                   <Doughnut
                     data={chartData}
                     options={{
@@ -172,14 +175,14 @@ const Food = () => {
 
                 {/* Loop through each meal for this date */}
                 {Object.keys(groupedFoodList[date]).map((meal) => (
-                  <div key={meal} className="food-meal-group">
+                  <div key={meal} className={styles.foodMealGroup}>
                     <h4>{meal.charAt(0).toUpperCase() + meal.slice(1)}</h4>
-                    <div className="meal-food-items">
+                    <div className={styles.mealFoodItems}>
                       {groupedFoodList[date][meal].map((food) => (
-                        <div key={food._id} className="food-item">
-                          <div className="food-item-header">
+                        <div key={food._id} className={styles.foodItem}>
+                          <div className={styles.foodItemHeader}>
                             <h5>{food.name}</h5>
-                            <p className="highlighted-calories">
+                            <p className={styles.highlightedCalories}>
                               {food.calories} calories
                             </p>
                           </div>
