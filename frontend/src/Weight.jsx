@@ -335,7 +335,7 @@ const Weight = () => {
             ) : (
               <div>
                 <span>
-                  <strong>{weight.weight}</strong>1 kg on{" "}
+                  <strong>{weight.weight}</strong> kg on{" "}
                   {new Date(weight.weightOnDate).toLocaleDateString("en-US", {
                     timeZone: "UTC",
                   })}
