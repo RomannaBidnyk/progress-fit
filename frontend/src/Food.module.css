@@ -44,18 +44,6 @@
   background-color: #218838;
 }
 
-.cancelLink {
-  margin-top: 20px;
-  color: #3e63b9;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.cancelLink:hover {
-  color: #344599;
-}
-
 .foodList {
   display: flex;
   flex-direction: column;
