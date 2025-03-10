@@ -8,8 +8,10 @@ import styles from "./Food.module.css";
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
 const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString();
+  const date = new Date(dateString).toLocaleDateString("en-US", {
+    timeZone: "UTC",
+  });
+  return date;
 };
 
 const Food = () => {
