@@ -23,7 +23,10 @@ const EditFood = ({ user }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setFood(data.food);
+        const formattedDate = data.food.dateEaten
+          ? new Date(data.food.dateEaten).toISOString().split("T")[0]
+          : "";
+        setFood({ ...data.food, dateEaten: formattedDate });
       })
       .catch((err) => {
         console.error("Error fetching food:", err);
