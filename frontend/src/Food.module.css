@@ -1,5 +1,5 @@
 .food {
-  max-width: 600px;
+  max-width: 1000px;
   margin: auto;
   padding: 20px;
 }
@@ -82,20 +82,22 @@
 }
 
 .doughnutChartContainer {
-  width: 45%; 
+  width: 40%;
   height: 300px;
   margin-bottom: 20px;
 }
 
 .chartAndMealData {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   justify-content: space-between;
+  /* flex-wrap: wrap;  */
 }
 
 .foodMealGroup {
   width: 100%;
   padding-left: 20px;
+  margin-bottom: 20px;
 }
 
 .foodMealGroup h4 {
@@ -105,44 +107,71 @@
 }
 
 .mealFoodItems {
-  margin-left: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
 }
 
-.foodItem {
-  margin-bottom: 8px;
-  padding: 8px;
+.foodCard {
+  padding: 15px;
   background-color: #f9f9f9;
-  border-radius: 5px;
+  border-radius: 8px;
   border: 1px solid #ddd;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
 
-.foodItemHeader {
+.foodCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.foodCardHeader {
   display: flex;
   justify-content: space-between;
 }
 
-.foodItemHeader h5 {
+.foodCardHeader h5 {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: bold;
 }
 
-.foodItemHeader p {
+.foodCardHeader p {
   margin: 0;
-  font-size: 0.9rem;
-  color: #777;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #d9534f;
 }
 
-.foodItem p {
-  margin: 2px 0;
+.foodCard p {
+  margin: 5px 0;
   font-size: 0.9rem;
   color: #666;
 }
 
-.foodItem button {
-  margin-top: 3px;
-  margin-right: 5px;
+.cardActions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cardActions button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
   font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cardActions button:hover {
+  background-color: #218838;
 }
 
 .highlightedCalories {

@@ -183,20 +183,22 @@ const Food = () => {
                         <h4>{meal.charAt(0).toUpperCase() + meal.slice(1)}</h4>
                         <div className={styles.mealFoodItems}>
                           {groupedFoodList[date][meal].map((food) => (
-                            <div key={food._id} className={styles.foodItem}>
-                              <div className={styles.foodItemHeader}>
+                            <div key={food._id} className={styles.foodCard}>
+                              <div className={styles.foodCardHeader}>
                                 <h5>{food.name}</h5>
                                 <p className={styles.highlightedCalories}>
                                   {food.calories} calories
                                 </p>
                               </div>
                               <p>Size: {food.size}g</p>
-                              <button onClick={() => handleEdit(food._id)}>
-                                Edit
-                              </button>
-                              <button onClick={() => handleDelete(food._id)}>
-                                Delete
-                              </button>
+                              <div className={styles.cardActions}>
+                                <button onClick={() => handleEdit(food._id)}>
+                                  Edit
+                                </button>
+                                <button onClick={() => handleDelete(food._id)}>
+                                  Delete
+                                </button>
+                              </div>
                             </div>
                           ))}
                         </div>
