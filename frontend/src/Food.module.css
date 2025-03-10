@@ -160,7 +160,6 @@
 }
 
 .cardActions button {
-  background-color: #28a745;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -170,8 +169,20 @@
   transition: background-color 0.3s ease;
 }
 
-.cardActions button:hover {
-  background-color: #218838;
+.editButton {
+  background-color: #4790cf;
+}
+
+.editButton:hover {
+  background-color: #3b6fad;
+}
+
+.deleteButton {
+  background-color: #b81500;
+}
+
+.deleteButton:hover {
+  background-color: #a00000;
 }
 
 .highlightedCalories {

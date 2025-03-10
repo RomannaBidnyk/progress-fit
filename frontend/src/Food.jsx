@@ -192,10 +192,16 @@ const Food = () => {
                               </div>
                               <p>Size: {food.size}g</p>
                               <div className={styles.cardActions}>
-                                <button onClick={() => handleEdit(food._id)}>
+                                <button
+                                  className={styles.editButton}
+                                  onClick={() => handleEdit(food._id)}
+                                >
                                   Edit
                                 </button>
-                                <button onClick={() => handleDelete(food._id)}>
+                                <button
+                                  className={styles.deleteButton}
+                                  onClick={() => handleDelete(food._id)}
+                                >
                                   Delete
                                 </button>
                               </div>
