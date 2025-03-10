@@ -146,63 +146,64 @@ const Food = () => {
                 </div>
 
                 {/* Donut Chart */}
-                <div className={styles.doughnutChartContainer}>
-                  <Doughnut
-                    data={chartData}
-                    options={{
-                      responsive: true,
-                      plugins: {
-                        legend: {
-                          labels: {
-                            color: "#000000",
-                            generateLabels: (chart) => {
-                              let labels =
-                                ChartJS.defaults.plugins.legend.labels.generateLabels(
-                                  chart
-                                );
-                              labels.push({
-                                text: `Total: ${chartData.totalCalories} cal`,
-                                fillStyle: "#000000",
-                                strokeStyle: "#000000",
-                                hidden: false,
-                              });
-                              return labels;
+                <div className={styles.chartAndMealData}>
+                  <div className={styles.doughnutChartContainer}>
+                    <Doughnut
+                      data={chartData}
+                      options={{
+                        responsive: true,
+                        plugins: {
+                          legend: {
+                            labels: {
+                              color: "#000000",
+                              generateLabels: (chart) => {
+                                let labels =
+                                  ChartJS.defaults.plugins.legend.labels.generateLabels(
+                                    chart
+                                  );
+                                labels.push({
+                                  text: `Total: ${chartData.totalCalories} cal`,
+                                  fillStyle: "#000000",
+                                  strokeStyle: "#000000",
+                                  hidden: false,
+                                });
+                                return labels;
+                              },
                             },
                           },
                         },
-                      },
-                    }}
-                  />
-                </div>
-
-                {/* Loop through each meal for this date */}
-                {Object.keys(groupedFoodList[date]).map((meal) => (
-                  <div key={meal} className={styles.foodMealGroup}>
-                    <h4>{meal.charAt(0).toUpperCase() + meal.slice(1)}</h4>
-                    <div className={styles.mealFoodItems}>
-                      {groupedFoodList[date][meal].map((food) => (
-                        <div key={food._id} className={styles.foodItem}>
-                          <div className={styles.foodItemHeader}>
-                            <h5>{food.name}</h5>
-                            <p className={styles.highlightedCalories}>
-                              {food.calories} calories
-                            </p>
-                          </div>
-                          <p>Size: {food.size}g</p>
-                          <p>
-                            {food.meal} on {formatDate(food.dateEaten)}
-                          </p>
-                          <button onClick={() => handleEdit(food._id)}>
-                            Edit
-                          </button>
-                          <button onClick={() => handleDelete(food._id)}>
-                            Delete
-                          </button>
-                        </div>
-                      ))}
-                    </div>
+                      }}
+                    />
                   </div>
-                ))}
+
+                  {/* Loop through each meal for this date */}
+                  <div className={styles.foodMealGroup}>
+                    {Object.keys(groupedFoodList[date]).map((meal) => (
+                      <div key={meal} className={styles.foodMealGroup}>
+                        <h4>{meal.charAt(0).toUpperCase() + meal.slice(1)}</h4>
+                        <div className={styles.mealFoodItems}>
+                          {groupedFoodList[date][meal].map((food) => (
+                            <div key={food._id} className={styles.foodItem}>
+                              <div className={styles.foodItemHeader}>
+                                <h5>{food.name}</h5>
+                                <p className={styles.highlightedCalories}>
+                                  {food.calories} calories
+                                </p>
+                              </div>
+                              <p>Size: {food.size}g</p>
+                              <button onClick={() => handleEdit(food._id)}>
+                                Edit
+                              </button>
+                              <button onClick={() => handleDelete(food._id)}>
+                                Delete
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             );
           })
