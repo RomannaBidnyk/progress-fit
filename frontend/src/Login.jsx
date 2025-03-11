@@ -32,7 +32,7 @@ const Login = ({ setUser }) => {
 
       localStorage.setItem("token", data.token);
       setUser(data.user);
-      navigate("/dashboard"); // Redirect to dashboard after login
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     }

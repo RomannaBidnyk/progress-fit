@@ -39,7 +39,7 @@ const Register = ({ setUser }) => {
 
       localStorage.setItem("token", data.token);
       setUser(data.user);
-      navigate("/dashboard"); // Redirect to dashboard after registration
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     }

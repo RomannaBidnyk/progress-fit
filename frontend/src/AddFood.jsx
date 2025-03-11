@@ -11,8 +11,8 @@ const AddFood = () => {
 
   const today = () => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset to midnight to avoid time issues
-    return today.toISOString().split("T")[0]; // Return the date in YYYY-MM-DD format
+    today.setHours(0, 0, 0, 0);
+    return today.toISOString().split("T")[0];
   };
 
   const [dateEaten, setDateEaten] = useState(today);
@@ -29,7 +29,7 @@ const AddFood = () => {
       size,
       calories,
       meal,
-      dateEaten, // Use the date entered by the user
+      dateEaten,
     };
 
     fetch(`${import.meta.env.VITE_API_URL}/api/food`, {
