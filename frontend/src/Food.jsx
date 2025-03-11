@@ -29,6 +29,14 @@ const Food = () => {
     }, {});
   };
 
+  // Sort the dates from newest to oldest
+  const sortGroupedFood = (groupedFoodList) => {
+    const sortedDates = Object.keys(groupedFoodList).sort(
+      (a, b) => new Date(b) - new Date(a)
+    );
+    return sortedDates;
+  };
+
   // Calculate data for the Doughnut chart
   const calculateCaloriesData = (groupedFoodList, date) => {
     const chartData = [];
@@ -113,6 +121,7 @@ const Food = () => {
   };
 
   const groupedFoodList = groupByDateAndMeal(foodList);
+  const sortedDates = sortGroupedFood(groupedFoodList); // Sort the dates
 
   return (
     <div className={styles.food}>
@@ -132,8 +141,8 @@ const Food = () => {
 
       {/* Food List Grouped by Date and Meal */}
       <div className={styles.foodList}>
-        {Object.keys(groupedFoodList).length > 0 ? (
-          Object.keys(groupedFoodList).map((date) => {
+        {sortedDates.length > 0 ? (
+          sortedDates.map((date) => {
             const chartData = calculateCaloriesData(groupedFoodList, date);
             return (
               <div key={date} className={styles.foodDateGroup}>
