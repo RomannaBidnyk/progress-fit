@@ -9,7 +9,7 @@ const Dashboard = ({ user, setUser }) => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setUser(null);
-    navigate("/login"); // Redirect to login after logout
+    navigate("/login");
   };
 
   return (

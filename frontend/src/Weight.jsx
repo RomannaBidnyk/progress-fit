@@ -35,8 +35,8 @@ const Weight = () => {
 
   const getTodayDate = () => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset to midnight to avoid time issues
-    return today.toISOString().split("T")[0]; // Return the date in YYYY-MM-DD format
+    today.setHours(0, 0, 0, 0);
+    return today.toISOString().split("T")[0];
   };
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const Weight = () => {
 
         const data = await response.json();
         const sortedWeights = data.weights.sort(
-          (a, b) => new Date(b.weightOnDate) - new Date(a.weightOnDate) // Descending order for the list
+          (a, b) => new Date(b.weightOnDate) - new Date(a.weightOnDate)
         );
 
         setWeights(sortedWeights);
@@ -112,7 +112,7 @@ const Weight = () => {
           },
           body: JSON.stringify({
             ...newWeight,
-            weightOnDate: formattedDate, // Send correctly formatted date
+            weightOnDate: formattedDate,
           }),
         }
       );
@@ -123,7 +123,7 @@ const Weight = () => {
       const data = await response.json();
 
       const updatedWeights = [...weights, data.newWeight].sort(
-        (a, b) => new Date(b.weightOnDate) - new Date(a.weightOnDate) // Descending order for the list
+        (a, b) => new Date(b.weightOnDate) - new Date(a.weightOnDate)
       );
 
       setWeights(updatedWeights);
@@ -152,7 +152,7 @@ const Weight = () => {
     if (
       weights.some(
         (w) =>
-          w._id !== editWeightId && // Exclude the currently edited weight
+          w._id !== editWeightId &&
           new Date(w.weightOnDate).toISOString().split("T")[0] === formattedDate
       )
     ) {
@@ -219,24 +219,23 @@ const Weight = () => {
     }
   };
 
-  // For the chart, sort weights from oldest to newest (ascending)
   const chartData = {
     labels: weights
-      .slice() // Create a copy of the weights array
-      .sort((a, b) => new Date(a.weightOnDate) - new Date(b.weightOnDate)) // Ascending order for the chart
+      .slice()
+      .sort((a, b) => new Date(a.weightOnDate) - new Date(b.weightOnDate))
       .map((weight) =>
         new Date(weight.weightOnDate).toLocaleDateString("en-US", {
           timeZone: "UTC",
         })
-      ), // x-axis (dates)
+      ),
 
     datasets: [
       {
         label: "Weight Over Time (kg)",
         data: weights
           .slice()
-          .sort((a, b) => new Date(a.weightOnDate) - new Date(b.weightOnDate)) // Ascending order for the chart
-          .map((weight) => weight.weight), // y-axis (weights)
+          .sort((a, b) => new Date(a.weightOnDate) - new Date(b.weightOnDate))
+          .map((weight) => weight.weight),
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         fill: false,

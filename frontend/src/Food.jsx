@@ -4,7 +4,6 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from "chart.js";
 import styles from "./Food.module.css";
 
-// Register chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
 const formatDate = (dateString) => {
@@ -18,7 +17,6 @@ const Food = () => {
   const navigate = useNavigate();
   const [foodList, setFoodList] = useState([]);
 
-  // Group food by date and meal
   const groupByDateAndMeal = (foods) => {
     return foods.reduce((acc, food) => {
       const date = formatDate(food.dateEaten);
@@ -29,7 +27,13 @@ const Food = () => {
     }, {});
   };
 
-  // Calculate data for the Doughnut chart
+  const sortGroupedFood = (groupedFoodList) => {
+    const sortedDates = Object.keys(groupedFoodList).sort(
+      (a, b) => new Date(b) - new Date(a)
+    );
+    return sortedDates;
+  };
+
   const calculateCaloriesData = (groupedFoodList, date) => {
     const chartData = [];
     const labels = [];
@@ -60,12 +64,12 @@ const Food = () => {
       datasets: [
         {
           label: "Calories per Meal",
-          data: chartData, // Exclude total from chart
+          data: chartData,
           backgroundColor: backgroundColors,
           hoverOffset: 4,
         },
       ],
-      totalCalories, // Store total separately
+      totalCalories,
     };
   };
 
@@ -113,6 +117,7 @@ const Food = () => {
   };
 
   const groupedFoodList = groupByDateAndMeal(foodList);
+  const sortedDates = sortGroupedFood(groupedFoodList);
 
   return (
     <div className={styles.food}>
@@ -125,24 +130,21 @@ const Food = () => {
 
       <h2 className={styles.title}>Food Tracker</h2>
 
-      {/* Add Food Button */}
       <button className={styles.addFood} onClick={() => navigate("/add-food")}>
         Add Food
       </button>
 
-      {/* Food List Grouped by Date and Meal */}
       <div className={styles.foodList}>
-        {Object.keys(groupedFoodList).length > 0 ? (
-          Object.keys(groupedFoodList).map((date) => {
+        {sortedDates.length > 0 ? (
+          sortedDates.map((date) => {
             const chartData = calculateCaloriesData(groupedFoodList, date);
             return (
               <div key={date} className={styles.foodDateGroup}>
-                {/* Date Header with Total Calories */}
                 <div className={styles.dateHeader}>
-                  <h3>{date}</h3>
                   <h3 className={styles.totalCalories}>
                     {chartData.totalCalories} calories total
                   </h3>
+                  <h3>{date}</h3>
                 </div>
 
                 {/* Donut Chart */}
@@ -152,31 +154,39 @@ const Food = () => {
                       data={chartData}
                       options={{
                         responsive: true,
+                        maintainAspectRatio: false,
                         plugins: {
                           legend: {
-                            labels: {
-                              color: "#000000",
-                              generateLabels: (chart) => {
-                                let labels =
-                                  ChartJS.defaults.plugins.legend.labels.generateLabels(
-                                    chart
-                                  );
-                                labels.push({
-                                  text: `Total: ${chartData.totalCalories} cal`,
-                                  fillStyle: "#000000",
-                                  strokeStyle: "#000000",
-                                  hidden: false,
-                                });
-                                return labels;
+                            display: true,
+                            position: "bottom",
+                          },
+                          tooltip: {
+                            callbacks: {
+                              label: (tooltipItem) => {
+                                return `${tooltipItem.label.split(" (")[0]}: ${
+                                  tooltipItem.raw
+                                } cal`;
+                              },
+                              footer: (tooltipItems) => {
+                                const dataset =
+                                  tooltipItems[0]?.dataset?.data || [];
+                                const totalCalories = dataset.reduce(
+                                  (acc, val) => acc + val,
+                                  0
+                                );
+                                return `Total Calories: ${totalCalories} cal`;
                               },
                             },
+                          },
+                          title: {
+                            display: true,
+                            text: "Calories per meal",
                           },
                         },
                       }}
                     />
                   </div>
 
-                  {/* Loop through each meal for this date */}
                   <div className={styles.foodMealGroup}>
                     {Object.keys(groupedFoodList[date]).map((meal) => (
                       <div key={meal} className={styles.foodMealGroup}>

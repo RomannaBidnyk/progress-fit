@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import styles from "./Food.module.css";
+import styles from "./EditFood.module.css";
 
 const EditFood = ({ user }) => {
   const { id } = useParams();
@@ -10,7 +10,7 @@ const EditFood = ({ user }) => {
     size: 1,
     calories: 0,
     meal: "snacks",
-    dateEaten: "", // Add dateEaten state
+    dateEaten: "",
   });
 
   useEffect(() => {
@@ -23,7 +23,10 @@ const EditFood = ({ user }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setFood(data.food);
+        const formattedDate = data.food.dateEaten
+          ? new Date(data.food.dateEaten).toISOString().split("T")[0]
+          : "";
+        setFood({ ...data.food, dateEaten: formattedDate });
       })
       .catch((err) => {
         console.error("Error fetching food:", err);
@@ -58,79 +61,82 @@ const EditFood = ({ user }) => {
   };
 
   return (
-    <div>
-      <h2>Edit Food</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name</label>
-          <input
-            type="text"
-            name="name"
-            value={food.name}
-            onChange={handleChange}
-            placeholder="Food Name"
-            required
-          />
-        </div>
-        <div>
-          <label>Size (grams)</label>
-          <input
-            type="number"
-            name="size"
-            value={food.size}
-            onChange={handleChange}
-            placeholder="Size (grams)"
-            required
-            min="1"
-            max="5000"
-          />
-        </div>
-        <div>
-          <label>Calories</label>
-          <input
-            type="number"
-            name="calories"
-            value={food.calories}
-            onChange={handleChange}
-            placeholder="Calories"
-            required
-            min="1"
-            max="5000"
-          />
-        </div>
-        <div>
-          <label>Meal</label>
-          <select
-            name="meal"
-            value={food.meal}
-            onChange={handleChange}
-            required
-          >
-            <option value="breakfast">Breakfast</option>
-            <option value="lunch">Lunch</option>
-            <option value="dinner">Dinner</option>
-            <option value="snacks">Snacks</option>
-          </select>
-        </div>
-        <div>
-          <label>Date Eaten</label>
-          <input
-            type="date"
-            name="dateEaten"
-            value={food.dateEaten}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">Save Changes</button>
-      </form>
-      <a
-        href="#"
-        className={styles.cancelLink}
-        onClick={() => navigate("/food")}
-      >
-        Cancel
-      </a>
+    <div className={styles.editFoodContainer}>
+      <div className={styles.editFoodCard}>
+        <h2>Edit Food</h2>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.formGroup}>
+            <label>Food name</label>
+            <input
+              type="text"
+              name="name"
+              value={food.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>Size (grams)</label>
+            <input
+              type="number"
+              name="size"
+              value={food.size}
+              onChange={handleChange}
+              required
+              min="1"
+              max="5000"
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>Calories</label>
+            <input
+              type="number"
+              name="calories"
+              value={food.calories}
+              onChange={handleChange}
+              required
+              min="1"
+              max="5000"
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>Meal</label>
+            <select
+              name="meal"
+              value={food.meal}
+              onChange={handleChange}
+              required
+            >
+              <option value="breakfast">Breakfast</option>
+              <option value="lunch">Lunch</option>
+              <option value="dinner">Dinner</option>
+              <option value="snacks">Snacks</option>
+            </select>
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>Date Eaten</label>
+            <input
+              type="date"
+              name="dateEaten"
+              value={food.dateEaten}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <button type="submit" className={styles.submitButton}>
+            Save Changes
+          </button>
+        </form>
+
+        <a className={styles.cancelLink} onClick={() => navigate("/food")}>
+          Cancel
+        </a>
+      </div>
     </div>
   );
 };

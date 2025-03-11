@@ -79,7 +79,6 @@ input {
   font-style: italic;
 }
 
-/* Style for the existing weights section */
 .existingWeightsTitle {
   font-size: 20px;
   margin-top: 20px;
@@ -173,7 +172,6 @@ input {
   background-color: #a00000;
 }
 
-/* Pagination styles */
 .pagination {
   display: flex;
   justify-content: center;
